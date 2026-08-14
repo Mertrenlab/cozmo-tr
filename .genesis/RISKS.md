@@ -88,6 +88,25 @@ Yeni riskler bulundukça append edilir; ID'ler değişmez.
 - Mitigation: Python 3.11–3.12 ve Vosk 0.3.44 sabitlenir; `doctor` importları dener.
 - Detection: Kurulumda wheel bulunamaması veya PyCozmo import hatası.
 
+### RISK-O6: Optional animation assets are untrusted or unavailable
+
+- Source: Adversary, `ADR-CON-001` review
+- Severity: high
+- Description: PyCozmo'nun önerdiği animasyon arşivi üçüncü taraf depodan ve
+  TLS doğrulaması kapatılarak indiriliyor; kaynak ve lisans güveni zayıf.
+- Mitigation: Varsayılan kurulum arşivi indirmez; ifadeler yerel motor, ışık ve
+  OLED ilkelleriyle üretilir.
+- Detection: `doctor` kaynakların yokluğunu bilgi olarak gösterir, hata yapmaz.
+
+### RISK-O7: Camera capture stores an unintended image
+
+- Source: User Advocate, `ADR-CON-001` review
+- Severity: medium
+- Description: Kamera komutu çevredeki kişilerin görüntüsünü diske yazabilir.
+- Mitigation: Yalnız açık “fotoğraf çek” komutu tek kare kaydeder; sürekli kayıt
+  ve otomatik yükleme yoktur.
+- Detection: Başarılı komut kullanıcıya yerel dosya yolunu bildirir.
+
 ## User-experience risks
 
 ### RISK-U1: Listening state is unclear

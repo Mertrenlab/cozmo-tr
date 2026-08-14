@@ -21,6 +21,7 @@ onu supersede eden yeni ADR yazmayı gerektirir.
 | ADR-DEP-002 | 2026-08-14 | Adopt Vosk Turkish | accepted |
 | ADR-DEP-003 | 2026-08-14 | Adopt sounddevice | accepted |
 | ADR-DEP-004 | 2026-08-14 | Adopt Python quality toolchain | accepted |
+| ADR-CON-001 | 2026-08-14 | Expand direct macOS capability scope | accepted |
 
 ---
 
@@ -236,6 +237,30 @@ PyCozmo adaptörü yenilenmeden desteklenmez.
 
 **Considered alternatives.** Kaynaktan Vosk derlemek ve PyCozmo'yu vendor etmek
 hızlı prototipin kurulum ve bakım yüzeyini gereksiz büyüttüğü için reddedildi.
+
+## ADR-CON-001: Expand direct macOS capability scope
+
+- **Status:** accepted
+- **Date:** 2026-08-14
+
+**Context.** İlk anayasa kamera ve kontrollü davranışları MVP dışına almıştı.
+Kullanıcı çalışma zamanının daima yalnız macOS olacağını ve top oyunları
+dışındaki doğrulanabilir Cozmo yeteneklerinin hazırlanmasını açıkça istedi.
+
+**Decision.** Doğrudan PyCozmo mimarisi korunur. Kapsam; kafa, kaldırma kolu,
+sırt ve kafa ışıkları, yüz ekranı, kamera karesi, robot durumu ve güvenlik
+politikasının genişlettiği sonlu bileşik rutinleri içerir. Top oyunları,
+denetimsiz gezinme ve PyCozmo'nun uygulamadığı yüz/küp oyun motorları kapsam
+dışıdır. Küp telemetrisi ancak gerçek API ile doğrulanırsa ayrıca eklenir.
+
+**Consequences.** `RobotAction` dar boğazı yeni güvenli türler alır; motorlu
+rutinler önce güvenli ilkel eylemlere açılır. Kamera yalnız açık “fotoğraf çek”
+komutunda yerel dosya üretir. Haricî ve doğrulanmamış animasyon arşivi zorunlu
+kurulum parçası yapılmaz.
+
+**Considered alternatives.** Resmî SDK zengin davranışlar sunsa da mobil
+uygulama gerektirdiği için reddedildi. PyCozmo kaynak arşivini otomatik indirmek
+tedarik zinciri ve lisans belirsizliği yüzünden varsayılan yapılmadı.
 
 ## How to add a new ADR
 
