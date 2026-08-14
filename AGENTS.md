@@ -5,10 +5,10 @@
 
 ## Project, in one paragraph
 
-Cozmo TR lets a non-technical demo user speak Turkish through an external
-microphone and receive bounded robot actions plus Turkish audio from an Anki
-Cozmo without the mobile app. Its fragile assumption is that the small Turkish
-Vosk model recognizes at least 80% of the fixed demo utterances.
+Cozmo TR lets a demo user type or speak Turkish through a Mac and receive
+bounded motion, audio, display, camera and accessory effects from an Anki Cozmo
+without the mobile app. Its fragile assumptions are direct PyCozmo stability
+and at least 80% recognition of fixed Turkish utterances.
 
 ## Hard rules (you will be held to these)
 
@@ -68,9 +68,10 @@ These require 100% branch coverage and explicit failure tests.
 
 ## What this project deliberately does not do
 
-- MVP LLM chat, wake-word, camera, face recognition, or persistent memory
+- Unverified LLM chat, wake-word, face recognition, or persistent memory
 - Unsupervised autonomous movement
 - Mobile-app, multi-robot, or server deployment
+- Claims of hardware readiness without the documented physical smoke test
 
 ## Tooling
 

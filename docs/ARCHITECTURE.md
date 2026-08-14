@@ -12,10 +12,15 @@ mümkün kılar (`ADR-002`).
 | Module | Responsibility | Not responsible for |
 |---|---|---|
 | `actions` | Tipli eylemler ve güvenlik sınırları | Motor I/O, STT |
+| `accessory_commands` | Küp/platform söz dizimi | BLE ve paket I/O |
 | `commands` | Türkçe metni deterministik eyleme çevirme | LLM, hareket yürütme |
 | `orchestrator` | Bir kullanıcı turunu koordine etme | Donanım ayrıntıları |
 | `tts` | Türkçe metni Cozmo WAV biçimine çevirme | Hoparlör aktarımı |
-| `robot` | Robot portu ve PyCozmo adaptörü | Komut yorumlama |
+| `effects` | Güvenli ilkel eylemleri PyCozmo çağrılarına eşleme | Bağlantı yaşam döngüsü |
+| `robot` | PyCozmo bağlantı yaşam döngüsü ve oturum delegasyonu | Komut yorumlama |
+| `capture` / `ball` | Tek kare ve saf kırmızı-top planı | Denetimsiz gezinme |
+| `accessories` | Sonlu küp/platform keşfi, bağlantısı ve LED paketleri | Sonsuz BLE bekleme |
+| `capabilities` | Kullanıcıya açık doğrulama durumları | Donanımın çalıştığını varsayma |
 | `stt` | Mikrofon sesini Türkçe metne çevirme | Eylem seçme |
 | `cli` | Girdi doğrulama ve kullanıcı mesajları | Domain kararları |
 
@@ -79,6 +84,8 @@ Kaynak kod sanal ortamda editable kurulur; sürümler Git etiketiyle belirlenir
 - Sürekli mikrofon veya wake-word
 - Kalıcı konuşma geçmişi
 - Mobil Cozmo uygulaması üzerinden bağlantı
+- Resmî mobil oyun motorunun veya kapalı animasyon varlıklarının taklidi
+- Fiziksel smoke testi geçmeden bir yeteneği `ready` ilan etme
 
 ## See also
 

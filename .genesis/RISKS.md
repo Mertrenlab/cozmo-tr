@@ -146,3 +146,13 @@ Yeni riskler bulundukça append edilir; ID'ler değişmez.
 - `.genesis/CONSTITUTION.md` — kill criteria
 - `docs/ARCHITECTURE.md` — risklerin etkilediği bileşenler
 - `docs/ROADMAP.md` — azaltım sırası
+
+### RISK-O8: Cube or charger BLE discovery is intermittent
+
+- Source: Builder, `ADR-011`
+- Severity: medium
+- Description: Düşük aksesuar pili veya radyo gürültüsü nesne yayınını süre
+  penceresinde görünmez kılabilir.
+- Mitigation: Sonlu keşif, fabrika kimliği doğrulaması ve tekrar denenebilir
+  tek-komut smoke akışı.
+- Detection: `Küp bulunamadı`, `Şarj istasyonu bulunamadı` veya bağlantı hatası.

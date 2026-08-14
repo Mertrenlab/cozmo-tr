@@ -300,3 +300,22 @@ de kurulum ve bakım yüzeyini kanıt olmadan büyüttüğü için ertelendi.
 - `.genesis/CONSTITUTION.md` — karar sınırları
 - `docs/ARCHITECTURE.md` — kararların teknik sonucu
 - `.genesis/PROGRESS.md` — karar ve uygulama günlüğü
+
+## ADR-011: Bound direct accessory discovery and connection
+
+- **Status:** accepted
+- **Date:** 2026-08-15
+
+**Context.** PyCozmo küp ve şarj örnekleri nesne yayını gelene kadar sonsuz
+bekliyor ve ilk bağlı nesneyi seçiyor. Bu davranış kullanıcı terminalini
+kilitleyebilir veya yanlış aksesuarı sürebilir.
+
+**Decision.** Üç ışıklı küp tipi ve şarj platformu fabrika kimliğiyle eşlenir.
+Keşif ve bağlantı 1,5 saniye ile sınırlanır; bağlı nesne yine aynı fabrika
+kimliğiyle doğrulanır. Küpte dört, platformda üç LED sürülür.
+
+**Consequences.** Eksik/pilsiz aksesuar Türkçe hata ile sonlanır; doğrudan
+protokol kullanımı adaptör içinde ve fake testlerle izole kalır.
+
+**Considered alternatives.** Sonsuz polling ve ilk bağlı nesneyi seçme,
+tekrar üretilemez ve yanlış hedef riski nedeniyle reddedildi.

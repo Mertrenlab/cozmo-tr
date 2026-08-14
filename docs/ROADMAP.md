@@ -1,75 +1,51 @@
 # Roadmap — Cozmo TR
 
-Teslim küçük dikey dilimler halinde ilerler: bugün donanımsız çalışan ve sesi
-üreten v0.1, ilk fiziksel oturumda robot smoke testi, sonra STT kalitesi.
+Teslimler yazılım kanıtı ile fiziksel kanıtı ayırır. Bir özellik fake-adapter ve
+sentetik testleri geçebilir; ilgili donanımla smoke edilmeden `ready` olmaz.
 
 ## Phase 0 — Genesis (complete)
 
-- Konsey değerlendirmesi
-- Proje kiti ve Git deposu
-- Mimari, risk ve karar kayıtları
+- Proje sözleşmesi, mimari, risk ve karar kayıtları
+- TDD, boyut, tip ve coverage kapıları
 
-## Phase 1 — MVP (target: 2026-08-15)
+## Phase 1 — Türkçe güvenli çekirdek (complete)
 
-### Goals
+- Deterministik Türkçe parser ve `RobotAction` dar boğazı
+- Tüm hareketlerde `SafetyPolicy`, cliff-stop ve güvenli shutdown
+- macOS Türkçe WAV, Vosk push-to-talk ve doğrudan PyCozmo bağlantısı
+- `doctor`, dry-run, yetenek kataloğu ve tek-komut `execute`
 
-- Türkçe parser ve güvenlik kapısı
-- Text dry-run ve `doctor`
-- macOS Türkçe WAV üretimi
-- PyCozmo portu ve bağlantı smoke komutu
-- Push-to-talk Vosk adaptörü
+## Phase 2 — Doğrudan Cozmo yetenekleri (software complete)
 
-### Cut-line
+- Paletler, baş, kaldırma kolu, sırt/kafa ışıkları ve hoparlör seviyesi
+- Yerel OLED ifadeleri, pil yanıtı, tek kare kamera ve sonlu rutinler
+- Sentetik testli kırmızı top algılama ve güvenli hareket planı
+- Üç küp türü ile şarj platformu için sonlu keşif, BLE bağlantısı ve LED'ler
 
-Metinle verilen `dur`, `ileri`, `geri`, `sol`, `sağ` komutları güvenli sonucu
-üretmeli; Türkçe ses doğru WAV biçiminde çıkmalıdır. Bunun altı demo değildir.
+## Phase 3 — Fiziksel doğrulama (current)
 
-### Deferred
+- `docs/HARDWARE_SMOKE_TEST.md` listesini boş zeminde yürüt
+- Robot/küp/platform/top sonuçlarını ayrı ayrı kaydet
+- Geçen yetenekleri `experimental` / `hardware_pending` durumundan `ready`ye al
+- 20 hedef Türkçe cümlede en az 16 doğru eylemi doğrula
 
-- Piper doğal ses
-- faster-whisper karşılaştırması
-- LLM sohbeti
-- Wake-word ve web paneli
+## Phase 4 — Doğal ve görsel etkileşim (gated)
 
-## Phase 2 — Physical validation (target: first robot session)
+- STT kabulü başarısızsa faster-whisper değerlendirmesi
+- Yerel sohbet; yalnız tipli ve güvenlik kapılı araç çağrıları
+- Konuşurken mikrofonu kapatma ve isteğe bağlı wake-word
+- Yanlış pozitif testleri geçerse yüz/işaret algılama ve şarj yönlendirmesi
 
-### Goals
+## Sürekli non-goals
 
-- Cozmo Wi-Fi bağlantısı ve uçurum koruması
-- Hoparlörden Türkçe WAV
-- Beş komutluk masa değil zemin smoke testi
-- 20 cümlelik STT kabul raporu
-
-### Exit
-
-En az 16/20 doğru STT ve beş fiziksel komuttan en az dört başarı.
-
-## Phase 3 — Natural interaction (target: after MVP evidence)
-
-### Goals
-
-- Piper sesi değerlendirmek
-- Gerekirse faster-whisper'a geçmek
-- Yapılandırılmış araç çağrılı yerel Ollama sohbeti
-- Konuşurken mikrofonu durdurmak
-
-## Cut-list (post-MVP, ordered)
-
-1. Piper Türkçe ses
-2. faster-whisper yedeği
-3. Yerel LLM
-4. Wake-word
-5. Web paneli ve kamera
-
-## Non-goals
-
-- Denetimsiz otonom hareket
-- Bulut zorunluluğu veya mobil uygulama
-- Çoklu robot ve üretim sunucusu
-- MVP'de yüz tanıma ve kalıcı hafıza
+- Denetimsiz otonom hareket veya masada hareket testi
+- Telefon uygulamasına, internete ya da buluta çalışma zamanı bağımlılığı
+- Kaynağı/lisansı doğrulanmamış animasyon arşivini otomatik indirme
+- PyCozmo'nun uygulamadığı mobil oyun motoru özelliklerini hazır gösterme
 
 ## See also
 
-- `docs/CHARTER.md` — bu planın teslim ettiği görev
+- `docs/CHARTER.md` — ürün görevi
+- `docs/HARDWARE_SMOKE_TEST.md` — fiziksel kabul sırası
 - `.genesis/DECISIONS.md` — faz kararları
 - `.genesis/PROGRESS.md` — gerçekleşen ilerleme
