@@ -25,6 +25,7 @@ class ActionKind(StrEnum):
     STATUS = "status"
     VOLUME = "volume"
     ROUTINE = "routine"
+    BALL = "ball"
 
 
 @dataclass(frozen=True, slots=True)
@@ -57,6 +58,7 @@ NAMED_VALUES: dict[ActionKind, frozenset[str]] = {
     ActionKind.CAMERA: frozenset({"capture"}),
     ActionKind.STATUS: frozenset({"battery"}),
     ActionKind.ROUTINE: frozenset({"dance", "greet", "nod", "goodbye"}),
+    ActionKind.BALL: frozenset({"find", "play"}),
 }
 
 

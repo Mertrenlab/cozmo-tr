@@ -3,9 +3,8 @@
 import unittest
 from collections.abc import Iterable
 
-from cozmo_tr.ball import BallObservation, detect_red_ball, plan_ball_motion
-
 from cozmo_tr.actions import ActionKind, RobotAction, SafetyPolicy
+from cozmo_tr.ball import BallObservation, detect_red_ball, plan_ball_motion
 
 Pixel = tuple[int, int, int]
 
@@ -56,11 +55,35 @@ class BallVisionTests(unittest.TestCase):
     def test_rejects_frame_without_target(self) -> None:
         self.assertIsNone(detect_red_ball(FakeFrame(40, 30, None)))
 
+    def test_rejects_long_red_shape_that_is_not_ball_like(self) -> None:
+        self.assertIsNone(detect_red_ball(FakeFrame(40, 30, (2, 12, 35, 15))))
+
     def test_turns_toward_left_target(self) -> None:
         observation = BallObservation(offset_x=-0.7, area_fraction=0.05, confidence=0.9)
         plan = plan_ball_motion(observation, mode="find")
         self.assertEqual(plan[0], RobotAction(ActionKind.TURN, 15.0))
         self.assertEqual(plan[-1], RobotAction(ActionKind.STOP))
+
+    def test_turns_toward_right_target(self) -> None:
+        observation = BallObservation(offset_x=0.7, area_fraction=0.05, confidence=0.9)
+        plan = plan_ball_motion(observation, mode="find")
+        self.assertEqual(plan[0], RobotAction(ActionKind.TURN, -15.0))
+
+    def test_approaches_far_and_retreats_from_near_target(self) -> None:
+        far = BallObservation(offset_x=0.0, area_fraction=0.02, confidence=0.9)
+        near = BallObservation(offset_x=0.0, area_fraction=0.2, confidence=0.9)
+        self.assertEqual(
+            plan_ball_motion(far, "find")[0], RobotAction(ActionKind.MOVE, 40.0)
+        )
+        self.assertEqual(
+            plan_ball_motion(near, "find")[0], RobotAction(ActionKind.MOVE, -30.0)
+        )
+
+    def test_centered_find_target_holds_position(self) -> None:
+        centered = BallObservation(offset_x=0.0, area_fraction=0.08, confidence=0.9)
+        self.assertEqual(
+            plan_ball_motion(centered, "find"), (RobotAction(ActionKind.STOP),)
+        )
 
     def test_play_pushes_and_returns_when_centered(self) -> None:
         observation = BallObservation(offset_x=0.0, area_fraction=0.08, confidence=0.9)
@@ -84,6 +107,10 @@ class BallVisionTests(unittest.TestCase):
         self.assertEqual(
             plan_ball_motion(uncertain, "play"), (RobotAction(ActionKind.STOP),)
         )
+
+    def test_rejects_unknown_mode(self) -> None:
+        with self.assertRaises(ValueError):
+            plan_ball_motion(None, "kick")
 
 
 if __name__ == "__main__":

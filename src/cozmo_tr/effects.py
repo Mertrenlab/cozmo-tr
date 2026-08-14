@@ -96,6 +96,7 @@ class RobotEffects:
             ActionKind.CAMERA: self._camera,
             ActionKind.STATUS: self._status,
             ActionKind.VOLUME: self._volume,
+            ActionKind.BALL: self._ball_pending,
         }
 
     @staticmethod
@@ -163,6 +164,10 @@ class RobotEffects:
             output = Path(directory) / "speech.wav"
             self._tts.synthesize(text, output)
             client.play_audio(str(output))
+
+    @staticmethod
+    def _ball_pending(_client: EffectClient, _action: RobotAction) -> None:
+        raise RobotUnavailable("Top oyunu için gerçek top smoke testi bekleniyor")
 
 
 def _required_value(action: RobotAction) -> float:

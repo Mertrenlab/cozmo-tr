@@ -107,6 +107,8 @@ FIXED_PATTERNS: tuple[tuple[re.Pattern[str], RobotAction], ...] = (
         re.compile(r"\b(?:görüşürüz|hoşça kal|bay bay)\b", re.I),
         RobotAction(ActionKind.ROUTINE, text="goodbye"),
     ),
+    (re.compile(r"\btopu bul\b", re.I), RobotAction(ActionKind.BALL, text="find")),
+    (re.compile(r"\btopla oyna\b", re.I), RobotAction(ActionKind.BALL, text="play")),
     (
         re.compile(r"\b(?:nasılsın|iyi misin)\b", re.I),
         RobotAction(ActionKind.SPEAK, text="İyiyim, teşekkür ederim."),
