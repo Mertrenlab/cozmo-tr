@@ -31,3 +31,6 @@ iştir. Tek yazım veya biçim düzeltmesi kayıt gerektirmez.
 - `.genesis/DECISIONS.md` — ADR kayıtları
 - `.genesis/RISKS.md` — risk kayıtları
 - `docs/DEFINITION_OF_DONE.md` — ne zaman ilerleme yazılır
+
+2026-08-15 00:24 | ADR-CON-002, ADR-011 | Adds bounded ball, cube, charger and full direct Cozmo capability paths
+2026-08-15 00:24 | ADR-007 | Publishes typed hardware execute flow and runbook; 94 tests pass at 96.00% coverage
