@@ -1,11 +1,15 @@
 """Tests for PyCozmo adaptation through an in-memory client."""
 
-import tempfile
 import unittest
 from pathlib import Path
 
 from cozmo_tr.actions import ActionKind, RobotAction
-from cozmo_tr.robot import PyCozmoRobot, RobotUnavailable
+from cozmo_tr.robot import (
+    PyCozmoRobot,
+    RobotUnavailable,
+    _load_client_factory,
+    _load_packet_factory,
+)
 from cozmo_tr.tts import WavSpec
 
 
@@ -76,7 +80,8 @@ class RobotAdapterTests(unittest.TestCase):
 
     def test_connect_enables_cliff_stop(self) -> None:
         self.robot.connect()
-        self.assertEqual(self.client.calls[:3], [("start",), ("connect",), ("wait", 8.0)])
+        expected = [("start",), ("connect",), ("wait", 8.0)]
+        self.assertEqual(self.client.calls[:3], expected)
         self.assertEqual(self.client.conn.packets, [("cliff", True)])
 
     def test_maps_move_turn_stop_and_speech(self) -> None:
@@ -93,7 +98,21 @@ class RobotAdapterTests(unittest.TestCase):
     def test_close_stops_and_disconnects(self) -> None:
         self.robot.connect()
         self.robot.close()
-        self.assertEqual(self.client.calls[-3:], [("stop_motors",), ("disconnect",), ("stop_client",)])
+        expected = [("stop_motors",), ("disconnect",), ("stop_client",)]
+        self.assertEqual(self.client.calls[-3:], expected)
+
+    def test_close_without_connection_is_safe(self) -> None:
+        self.robot.close()
+        self.assertEqual(self.client.calls, [])
+
+    def test_missing_numeric_value_is_rejected(self) -> None:
+        self.robot.connect()
+        with self.assertRaises(RobotUnavailable):
+            self.robot.execute(RobotAction(ActionKind.MOVE))
+
+    def test_default_pycozmo_factories_load(self) -> None:
+        self.assertTrue(callable(_load_client_factory()))
+        self.assertTrue(callable(_load_packet_factory()))
 
 
 if __name__ == "__main__":

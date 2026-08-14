@@ -2,6 +2,7 @@
 
 import math
 import unittest
+from typing import cast
 
 from cozmo_tr.actions import ActionKind, RobotAction, SafetyPolicy, UnsafeAction
 
@@ -37,13 +38,17 @@ class SafetyPolicyTests(unittest.TestCase):
     def test_rejects_missing_zero_and_non_finite_values(self) -> None:
         invalid = (None, 0.0, math.nan, math.inf)
         for value in invalid:
-            with self.subTest(value=value):
-                with self.assertRaises(UnsafeAction):
-                    self.policy.enforce(RobotAction(ActionKind.MOVE, value=value))
+            with self.subTest(value=value), self.assertRaises(UnsafeAction):
+                self.policy.enforce(RobotAction(ActionKind.MOVE, value=value))
 
     def test_rejects_empty_speech(self) -> None:
         with self.assertRaises(UnsafeAction):
             self.policy.enforce(RobotAction(ActionKind.SPEAK, text="   "))
+
+    def test_rejects_unknown_action_kind(self) -> None:
+        unknown = cast(ActionKind, object())
+        with self.assertRaises(UnsafeAction):
+            self.policy.enforce(RobotAction(unknown))
 
 
 if __name__ == "__main__":

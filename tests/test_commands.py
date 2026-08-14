@@ -30,6 +30,7 @@ class TurkishCommandTests(unittest.TestCase):
         self.assert_action("söyle Merhaba dünya", expected)
 
     def test_rejects_unknown_or_ambiguous_movement(self) -> None:
+        self.assertIsNone(parse_command("   "))
         self.assertIsNone(parse_command("bugün nasılsın"))
         self.assertIsNone(parse_command("ileri geri"))
 

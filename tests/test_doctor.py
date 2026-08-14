@@ -48,6 +48,16 @@ class DoctorTests(unittest.TestCase):
         self.assertTrue(report_ok(checks))
         self.assertIn("[UYARI] PyCozmo", format_report(checks))
 
+    def test_non_macos_is_required_tts_failure(self) -> None:
+        checks = inspect_environment(
+            Path("/missing/model"),
+            tool_probe=lambda _name: None,
+            module_probe=lambda _name: True,
+            platform="linux",
+        )
+        self.assertIn("macOS gerektirir", format_report(checks))
+        self.assertFalse(report_ok(checks))
+
 
 if __name__ == "__main__":
     unittest.main()

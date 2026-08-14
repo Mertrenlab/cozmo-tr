@@ -3,7 +3,7 @@
 import unittest
 from dataclasses import dataclass, field
 
-from cozmo_tr.actions import ActionKind, RobotAction
+from cozmo_tr.actions import ActionKind, RobotAction, UnsafeAction
 from cozmo_tr.orchestrator import TurnService
 
 
@@ -16,6 +16,14 @@ class FakeRobot:
     def execute(self, action: RobotAction) -> None:
         """Record one already-safe action."""
         self.actions.append(action)
+
+
+class RejectingPolicy:
+    """Reject every action to cover the safety failure boundary."""
+
+    def enforce(self, _action: RobotAction) -> RobotAction:
+        """Raise the same domain failure as a real policy."""
+        raise UnsafeAction("test rejection")
 
 
 class TurnServiceTests(unittest.TestCase):
@@ -33,6 +41,13 @@ class TurnServiceTests(unittest.TestCase):
         self.assertFalse(result.accepted)
         self.assertEqual(robot.actions, [])
         self.assertIn("Anlayamadım", result.message)
+
+    def test_unsafe_action_does_not_reach_robot(self) -> None:
+        robot = FakeRobot()
+        result = TurnService(robot, RejectingPolicy()).handle("ileri")
+        self.assertFalse(result.accepted)
+        self.assertEqual(robot.actions, [])
+        self.assertIn("güvenli değil", result.message)
 
 
 if __name__ == "__main__":

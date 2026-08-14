@@ -5,6 +5,8 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
+import wave
 
 from cozmo_tr.tts import MacSayTts, TtsUnavailable, validate_cozmo_wav
 
@@ -35,6 +37,27 @@ class WavValidationTests(unittest.TestCase):
             output.write_text("not audio", encoding="utf-8")
             with self.assertRaises(TtsUnavailable):
                 validate_cozmo_wav(output)
+
+    def test_rejects_wrong_wav_format(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "wrong.wav"
+            with wave.open(str(output), "wb") as audio:
+                audio.setnchannels(2)
+                audio.setsampwidth(2)
+                audio.setframerate(44_100)
+                audio.writeframes(b"\0" * 16)
+            with self.assertRaises(TtsUnavailable):
+                validate_cozmo_wav(output)
+
+    def test_rejects_empty_text(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            with self.assertRaises(TtsUnavailable):
+                MacSayTts().synthesize(" ", Path(directory) / "empty.wav")
+
+    def test_reports_missing_system_tools(self) -> None:
+        with patch("cozmo_tr.tts.shutil.which", return_value=None):
+            with self.assertRaises(TtsUnavailable):
+                MacSayTts().synthesize("Merhaba", Path("unused.wav"))
 
 
 if __name__ == "__main__":
