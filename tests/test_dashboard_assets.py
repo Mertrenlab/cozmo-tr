@@ -31,6 +31,35 @@ class DashboardAssetTests(unittest.TestCase):
         self.assertNotIn("http://", script)
         self.assertNotIn("https://", script)
 
+    def test_page_supports_file_preview_and_a_dedicated_drive_mode(self) -> None:
+        page = files("cozmo_tr.web").joinpath("index.html").read_text()
+        for expected in (
+            'href="styles.css"',
+            'src="app.js"',
+            'id="file-preview"',
+            'id="drive-mode-button"',
+            'id="drive-dialog"',
+            'data-drive-key="ArrowUp"',
+            'data-drive-key="Space"',
+        ):
+            with self.subTest(expected=expected):
+                self.assertIn(expected, page)
+
+    def test_script_maps_keyboard_drive_controls_to_safe_commands(self) -> None:
+        script = files("cozmo_tr.web").joinpath("app.js").read_text()
+        for expected in (
+            "window.location.protocol === 'file:'",
+            "ArrowUp: 'ileri 50'",
+            "ArrowDown: 'geri 50'",
+            "ArrowLeft: 'sola 45'",
+            "ArrowRight: 'sağa 45'",
+            "Space: 'dur'",
+            "KeyW: 'ileri 50'",
+            "openDriveMode",
+        ):
+            with self.subTest(expected=expected):
+                self.assertIn(expected, script)
+
 
 if __name__ == "__main__":
     unittest.main()

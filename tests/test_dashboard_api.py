@@ -5,10 +5,9 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from cozmo_tr.actions import RobotAction
 from cozmo_tr.dashboard_api import TOKEN_HEADER, DashboardApi
 from cozmo_tr.dashboard_service import DashboardService
-
-from cozmo_tr.actions import RobotAction
 
 
 class FakeRobot:
@@ -70,10 +69,14 @@ class DashboardApiTests(unittest.TestCase):
     def test_serves_tokenized_page_assets_status_and_capabilities(self) -> None:
         page = self.api.handle_get("/")
         script = self.api.handle_get("/assets/app.js")
+        root_script = self.api.handle_get("/app.js")
+        root_styles = self.api.handle_get("/styles.css")
         status = self.api.handle_get("/api/status")
         capabilities = self.api.handle_get("/api/capabilities")
         self.assertIn(b"secret-token", page.body)
         self.assertEqual(script.content_type, "text/javascript; charset=utf-8")
+        self.assertEqual(root_script.body, script.body)
+        self.assertEqual(root_styles.content_type, "text/css; charset=utf-8")
         self.assertFalse(json.loads(status.body)["connected"])
         self.assertTrue(json.loads(capabilities.body)["capabilities"])
 
