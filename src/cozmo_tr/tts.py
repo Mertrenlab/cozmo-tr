@@ -34,7 +34,11 @@ def validate_cozmo_wav(path: Path) -> WavSpec:
     """Return WAV metadata or raise when it is not Cozmo-compatible."""
     try:
         with wave.open(str(path), "rb") as audio:
-            spec = WavSpec(audio.getframerate(), audio.getnchannels(), audio.getsampwidth())
+            spec = WavSpec(
+                audio.getframerate(),
+                audio.getnchannels(),
+                audio.getsampwidth(),
+            )
     except (OSError, EOFError, wave.Error) as error:
         raise TtsUnavailable(f"WAV okunamadı: {path}") from error
     if spec != WavSpec(COZMO_SAMPLE_RATE, COZMO_CHANNELS, COZMO_SAMPLE_WIDTH):
@@ -70,8 +74,21 @@ class MacSayTts:
     def _run_pipeline(say: str, converter: str, text: str, output: Path) -> None:
         with tempfile.TemporaryDirectory(prefix="cozmo-tr-") as directory:
             intermediate = Path(directory) / "speech.aiff"
-            subprocess.run([say, "-v", MACOS_VOICE, "-o", intermediate, text], check=True)
             subprocess.run(
-                [converter, "-f", "WAVE", "-d", "LEI16@22050", "-c", "1", intermediate, output],
+                [say, "-v", MACOS_VOICE, "-o", intermediate, text],
+                check=True,
+            )
+            subprocess.run(
+                [
+                    converter,
+                    "-f",
+                    "WAVE",
+                    "-d",
+                    "LEI16@22050",
+                    "-c",
+                    "1",
+                    intermediate,
+                    output,
+                ],
                 check=True,
             )

@@ -5,11 +5,11 @@ Not responsible for: Turkish parsing or robot hardware calls.
 """
 
 from dataclasses import dataclass, replace
-from enum import Enum
+from enum import StrEnum
 from math import isfinite
 
 
-class ActionKind(str, Enum):
+class ActionKind(StrEnum):
     """Supported action categories crossing the robot boundary."""
 
     STOP = "stop"
