@@ -25,6 +25,7 @@ class DashboardAssetTests(unittest.TestCase):
         script = files("cozmo_tr.web").joinpath("app.js").read_text()
         self.assertIn("X-Cozmo-Token", script)
         self.assertIn("/api/connect", script)
+        self.assertIn("/api/status", script)
         self.assertIn("/api/execute", script)
         self.assertIn("/api/listen", script)
         self.assertNotIn("http://", script)
