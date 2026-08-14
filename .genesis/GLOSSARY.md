@@ -9,6 +9,10 @@
 
 - **Dry-run**: Fiziksel robota dokunmadan seçilen eylemi gösteren çalışma modu.
 
+## L
+
+- **Loopback dashboard**: Yalnız aynı Mac'ten erişilen `127.0.0.1` kontrol paneli.
+
 ## P
 
 - **Port**: Domain'in donanımdan beklediği küçük ve tipli arayüz.

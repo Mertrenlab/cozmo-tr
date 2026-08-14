@@ -21,6 +21,9 @@ mümkün kılar (`ADR-002`).
 | `capture` / `ball` | Tek kare ve saf kırmızı-top planı | Denetimsiz gezinme |
 | `accessories` | Sonlu küp/platform keşfi, bağlantısı ve LED paketleri | Sonsuz BLE bekleme |
 | `capabilities` | Kullanıcıya açık doğrulama durumları | Donanımın çalıştığını varsayma |
+| `dashboard_service` | Tek bağlantı ve sıralı güvenli kullanıcı turları | HTTP ve görünüm |
+| `dashboard_api` / `dashboard_http` | Korumalı loopback API ve statik panel | Uzak erişim |
+| `web` | Erişilebilir yerel kontrol yüzeyi | Robot kararları |
 | `stt` | Mikrofon sesini Türkçe metne çevirme | Eylem seçme |
 | `cli` | Girdi doğrulama ve kullanıcı mesajları | Domain kararları |
 
@@ -86,6 +89,7 @@ Kaynak kod sanal ortamda editable kurulur; sürümler Git etiketiyle belirlenir
 - Mobil Cozmo uygulaması üzerinden bağlantı
 - Resmî mobil oyun motorunun veya kapalı animasyon varlıklarının taklidi
 - Fiziksel smoke testi geçmeden bir yeteneği `ready` ilan etme
+- Loopback dışından dashboard erişimi veya tarayıcıdan güvenlik kapısını aşma
 
 ## See also
 

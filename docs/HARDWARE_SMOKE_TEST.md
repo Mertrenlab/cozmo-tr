@@ -2,6 +2,8 @@
 
 Bu kontrol listesi gerçek robot durumunu yazılım testlerinden ayrı kaydeder.
 Testleri boş zeminde, Cozmo tam şarjlıyken ve `dur` komutu hazırken yapın.
+Komutları dashboard'daki kutuya yazabilir veya aşağıdaki CLI karşılıklarını
+kullanabilirsiniz.
 
 ## Ön koşullar
 
@@ -9,6 +11,7 @@ Testleri boş zeminde, Cozmo tam şarjlıyken ve `dur` komutu hazırken yapın.
 - [ ] Mac `COZMO_...` Wi-Fi ağına bağlı; VPN ve mobil uygulama kapalı.
 - [ ] Robot masa kenarında değil; paletlerin çevresi boş.
 - [ ] Küpler/platform test edilecekse pilleri çalışıyor ve robota yakın.
+- [ ] `Cozmo TR.app` paneli açıyor ve `Cozmo'ya bağlan` başarılı oluyor.
 
 ## A — Bağlantı ve motorsuz etkiler
 
@@ -61,18 +64,14 @@ Bir hareket yönü tersse testi bırakın; başka motorlu komut çalıştırmay�
 - [ ] Bir kübün dört LED'i mavi yanıyor ve kapanıyor.
 - [ ] Platformun üç LED'i yeşil yanıyor ve kapanıyor.
 
-Bulunamayan aksesuar komutu sonlu sürede Türkçe hatayla bitmelidir; terminal
+Bulunamayan aksesuar komutu sonlu sürede Türkçe hatayla bitmelidir; panel
 sonsuz beklememelidir.
 
 ## D — Mikrofon
 
-```bash
-.venv/bin/cozmo-tr run --once --robot
-```
+Dashboard'da `Bas ve konuş` düğmesine basıp `başını kaldır` deyin.
 
-`başını kaldır` deyin.
-
-- [ ] Terminal duyduğu metni gösteriyor.
+- [ ] Panel duyduğu metni gösteriyor.
 - [ ] Doğru eylem yalnız bir kez uygulanıyor.
 - [ ] Cozmo kendi hoparlör sesini yeni komut sanmıyor.
 

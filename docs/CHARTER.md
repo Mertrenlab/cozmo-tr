@@ -30,6 +30,7 @@ ve daha ağır görüntü işleme ancak bu fiziksel döngü güvenilir olduğund
 - Kırmızı top için güven skorlu, kısa ve güvenlik kapılı hareket planı
 - Üç ışıklı küp ve şarj platformu için sonlu keşif/LED kontrolü
 - Mikrofondan bağımsız `execute` donanım smoke yolu
+- Loopback-only yerel dashboard ve çift tıklanan macOS başlatıcısı
 - Sınırlandırılmış `RobotAction` güvenlik kapısı
 - macOS `say` ile 22.050 Hz, 16-bit, mono WAV
 - PyCozmo ile telefonsuz bağlantı ve hoparlör oynatma

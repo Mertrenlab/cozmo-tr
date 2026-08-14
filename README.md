@@ -8,6 +8,9 @@ Mac'in mikrofonu Türkçe konuşmayı Vosk ile yerelde çözer; yanıt macOS Tü
 sesiyle WAV'a çevrilip Cozmo'nun hoparlöründen çalınır. Çalışırken internet ve
 Android/iPhone gerekmez.
 
+Günlük kullanımda terminal gerekmez: ilk kurulumdan sonra Finder'daki
+`Cozmo TR.app` çift tıklanır ve kontrol paneli tarayıcıda otomatik açılır.
+
 ## Neler yapıyor?
 
 | Grup | Türkçe örnekler | Durum |
@@ -76,7 +79,28 @@ internete çıkmaz.
 
 Mac bu sırada “internet yok” gösterebilir; bu beklenen durumdur.
 
-## 3. Önce mikrofonsuz gerçek robot testi yap
+## 3. Terminal kullanmadan dashboard'u aç
+
+Finder'da proje klasörünü açıp `Cozmo TR.app` uygulamasına çift tıklayın. İlk
+açılışta macOS engellerse uygulamaya sağ tıklayıp `Aç` seçin. Uygulamayı proje
+klasöründen taşımayın; isterseniz Dock'a veya masaüstüne alias ekleyin.
+
+Panel açılınca:
+
+1. `Cozmo'ya bağlan` düğmesine basın.
+2. Hazır hareket, ifade, ışık, küp ve kamera düğmelerinden birini seçin.
+3. Serbest Türkçe komutu kutuya yazın veya `Bas ve konuş` düğmesini kullanın.
+4. İşiniz bitince `Bağlantıyı kes` düğmesine basın.
+
+Panel yalnız bu Mac'teki `127.0.0.1` adresinde çalışır; internete yayınlanmaz.
+Tarayıcı sekmesini yanlışlıkla kapatırsanız uygulamayı yeniden çift tıklamak
+mevcut paneli açar. Geliştirici alternatifi:
+
+```bash
+.venv/bin/cozmo-tr dashboard
+```
+
+## 4. İsteğe bağlı komut satırı donanım testi
 
 Tek bir yazılı komutu bağlanıp çalıştırır ve bağlantıyı güvenle kapatır:
 
@@ -106,9 +130,9 @@ Küp ve platform yakındaysa:
 Tam doğrulama sırası için [donanım smoke testi](docs/HARDWARE_SMOKE_TEST.md)
 belgesini kullanın.
 
-## 4. Türkçe mikrofonu aç
+## 5. İsteğe bağlı komut satırı mikrofonu
 
-macOS ilk çalıştırmada Terminal/Python için mikrofon izni isteyebilir. İzni
+Dashboard veya Terminal ilk dinlemede mikrofon izni isteyebilir. İzni
 `Sistem Ayarları > Gizlilik ve Güvenlik > Mikrofon` bölümünden verin.
 
 Tek dinleme penceresi:
@@ -153,6 +177,7 @@ mikrofonu kullanılmaz.
 
 ```text
 .genesis/          karar, risk ve ilerleme kayıtları
+Cozmo TR.app/      Finder'dan çift tıklanan yerel dashboard başlatıcısı
 docs/              mimari, yol haritası ve smoke test
 src/cozmo_tr/      uygulama ve donanım adaptörleri
 tests/             donanımsız otomatik testler

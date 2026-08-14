@@ -21,6 +21,8 @@ sentetik testleri geçebilir; ilgili donanımla smoke edilmeden `ready` olmaz.
 - Yerel OLED ifadeleri, pil yanıtı, tek kare kamera ve sonlu rutinler
 - Sentetik testli kırmızı top algılama ve güvenli hareket planı
 - Üç küp türü ile şarj platformu için sonlu keşif, BLE bağlantısı ve LED'ler
+- Yazı, push-to-talk ve hazır kontroller içeren loopback-only dashboard
+- Terminal göstermeyen çift tıklanabilir macOS uygulama paketi
 
 ## Phase 3 — Fiziksel doğrulama (current)
 

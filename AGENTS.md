@@ -72,6 +72,7 @@ These require 100% branch coverage and explicit failure tests.
 - Unsupervised autonomous movement
 - Mobile-app, multi-robot, or server deployment
 - Claims of hardware readiness without the documented physical smoke test
+- Dashboard binding beyond loopback or any route that bypasses `TurnService`
 
 ## Tooling
 
