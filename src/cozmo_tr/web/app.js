@@ -117,6 +117,15 @@ async function loadCapabilities() {
   } catch (error) { handleError(error); }
 }
 
+async function loadStatus() {
+  try {
+    const response = await fetch('/api/status');
+    const data = await response.json();
+    setConnected(data.connected);
+    if (data.connected) showFeedback('Cozmo bağlantısı devam ediyor.', 'success');
+  } catch (error) { handleError(error); }
+}
+
 function capabilityCard(item) {
   const card = document.createElement('article');
   const state = document.createElement('span');
@@ -145,3 +154,4 @@ function bindControls() {
 bindControls();
 loadCapabilities();
 setConnected(false);
+loadStatus();
