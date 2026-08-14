@@ -3,8 +3,13 @@
 import unittest
 from dataclasses import dataclass
 
-from cozmo_tr.accessories import AccessoryController, AccessoryProtocol
+from cozmo_tr.accessories import (
+    AccessoryController,
+    AccessoryProtocol,
+    AccessorySession,
+)
 
+from cozmo_tr.actions import ActionKind, RobotAction
 from cozmo_tr.errors import RobotUnavailable
 
 
@@ -43,6 +48,16 @@ class FakeClient:
         self.conn = FakeConnection()
         self.available_objects: dict[int, FakeObject] = {}
         self.connected_objects: dict[int, dict[str, object]] = {}
+
+
+class FakeEffects:
+    """Collect spoken accessory feedback."""
+
+    def __init__(self) -> None:
+        self.actions: list[RobotAction] = []
+
+    def execute(self, _client: object, action: RobotAction) -> None:
+        self.actions.append(action)
 
 
 def protocol() -> AccessoryProtocol:
@@ -112,6 +127,14 @@ class AccessoryControllerTests(unittest.TestCase):
         self.client.available_objects[40] = FakeObject(NamedType("Charger_Basic"))
         with self.assertRaisesRegex(RobotUnavailable, "bağlanamadı"):
             self.controller.set_lights(self.client, "charger", "red")
+
+    def test_session_speaks_cube_count_through_a_safe_action(self) -> None:
+        self.client.available_objects[10] = FakeObject(NamedType("Block_LIGHTCUBE1"))
+        effects = FakeEffects()
+        session = AccessorySession(effects=effects, controller=self.controller)
+        session.play(self.client, "cube_count")
+        expected = RobotAction(ActionKind.SPEAK, text="1 küp görüyorum.")
+        self.assertEqual(effects.actions, [expected])
 
 
 if __name__ == "__main__":
