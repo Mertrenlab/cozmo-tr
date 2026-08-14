@@ -126,6 +126,12 @@ class CliTests(unittest.TestCase):
         robot.execute.assert_not_called()
         robot.close.assert_called_once_with()
 
+    def test_dashboard_launches_local_control_panel(self) -> None:
+        with patch("cozmo_tr.cli.run_dashboard") as run:
+            code = main(["dashboard", "--port", "9000", "--no-browser"])
+        self.assertEqual(code, 0)
+        run.assert_called_once_with(port=9000, open_browser=False)
+
 
 if __name__ == "__main__":
     unittest.main()
