@@ -66,6 +66,22 @@ class TurkishCommandTests(unittest.TestCase):
         self.assert_action("topu bul", RobotAction(ActionKind.BALL, text="find"))
         self.assert_action("topla oyna", RobotAction(ActionKind.BALL, text="play"))
 
+    def test_parses_cube_and_charger_commands_before_robot_lights(self) -> None:
+        expected = RobotAction(ActionKind.ACCESSORY, text="cube_count")
+        self.assert_action("kaç küp var", expected)
+        self.assert_action(
+            "küpü kırmızı yak",
+            RobotAction(ActionKind.ACCESSORY, text="cube_red"),
+        )
+        self.assert_action(
+            "küp ışıklarını kapat",
+            RobotAction(ActionKind.ACCESSORY, text="cube_off"),
+        )
+        self.assert_action(
+            "şarj ışığını mavi yak",
+            RobotAction(ActionKind.ACCESSORY, text="charger_blue"),
+        )
+
     def test_rejects_unknown_or_ambiguous_movement(self) -> None:
         self.assertIsNone(parse_command("   "))
         self.assertIsNone(parse_command("bugün hava nasıl"))

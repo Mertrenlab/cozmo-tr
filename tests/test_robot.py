@@ -81,6 +81,10 @@ class FakeBallSession:
         self.calls.append((client, mode))
 
 
+class FakeAccessorySession(FakeBallSession):
+    """Record one delegated accessory command."""
+
+
 class RobotAdapterTests(unittest.TestCase):
     """Verify connection safety and bounded action mapping."""
 
@@ -154,6 +158,18 @@ class RobotAdapterTests(unittest.TestCase):
         robot.connect()
         robot.execute(RobotAction(ActionKind.BALL, text="play"))
         self.assertEqual(session.calls, [(self.client, "play")])
+
+    def test_accessory_action_uses_direct_object_session(self) -> None:
+        session = FakeAccessorySession()
+        robot = PyCozmoRobot(
+            client_factory=lambda: self.client,
+            cliff_packet_factory=lambda enabled: ("cliff", enabled),
+            tts=FakeTts(),
+            accessory_session=session,
+        )
+        robot.connect()
+        robot.execute(RobotAction(ActionKind.ACCESSORY, text="cube_blue"))
+        self.assertEqual(session.calls, [(self.client, "cube_blue")])
 
 
 if __name__ == "__main__":

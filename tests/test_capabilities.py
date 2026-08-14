@@ -19,6 +19,12 @@ class CapabilityCatalogTests(unittest.TestCase):
                 capability = capability_by_id(capability_id)
                 self.assertTrue(capability.commands)
 
+    def test_accessories_wait_for_physical_hardware(self) -> None:
+        for capability_id in ("cubes", "charger"):
+            with self.subTest(capability_id=capability_id):
+                capability = capability_by_id(capability_id)
+                self.assertEqual(capability.state, CapabilityState.HARDWARE_PENDING)
+
     def test_command_lines_are_human_readable(self) -> None:
         rendered = "\n".join(command_lines())
         self.assertIn("[hardware_pending] Top oyunu", rendered)
