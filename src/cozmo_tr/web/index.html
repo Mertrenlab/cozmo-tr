@@ -6,8 +6,8 @@
     <meta name="theme-color" content="#f2a900">
     <meta name="cozmo-token" content="__COZMO_TOKEN__">
     <title>Cozmo Kontrol Merkezi</title>
-    <link rel="stylesheet" href="/assets/styles.css">
-    <script src="/assets/app.js" defer></script>
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
   </head>
   <body>
     <header class="topbar">
@@ -19,6 +19,14 @@
         <span></span><b>Bağlı değil</b>
       </div>
     </header>
+
+    <aside class="file-preview" id="file-preview" hidden>
+      <div>
+        <b>Bu ekran yalnız önizleme.</b>
+        <span>Robotu kullanmak için “Cozmo TR.app” dosyasını aç.</span>
+      </div>
+      <a href="http://127.0.0.1:8765/">Çalışan panele git ↗</a>
+    </aside>
 
     <main id="top">
       <section class="hero panel">
@@ -58,11 +66,15 @@
       </section>
 
       <div class="dashboard-grid">
-        <section class="panel controls" aria-labelledby="movement-title">
+        <section class="panel controls drive-card" id="drive-card" aria-labelledby="movement-title">
           <div class="section-heading compact">
             <div><p class="eyebrow">HAREKET</p><h2 id="movement-title">Sürüş</h2></div>
             <span class="safe-badge">Güvenli limit</span>
           </div>
+          <button class="drive-launch" id="drive-mode-button" type="button">
+            <span><b>Sürüş modunu aç</b><small>Ok tuşları veya W A S D</small></span>
+            <strong>→</strong>
+          </button>
           <div class="d-pad">
             <button data-command="ileri 50" aria-label="50 milimetre ileri">↑</button>
             <button data-command="sola 45" aria-label="45 derece sola">↶</button>
@@ -136,5 +148,25 @@
         <ol id="activity-log"><li><time>Şimdi</time><span>Panel hazır.</span></li></ol>
       </section>
     </main>
+
+    <dialog class="drive-dialog" id="drive-dialog" aria-labelledby="drive-title">
+      <div class="drive-dialog-head">
+        <div><p class="eyebrow">KLAVYE KONTROLÜ</p><h2 id="drive-title">Sürüş modu</h2></div>
+        <button class="dialog-close" id="drive-close" type="button" aria-label="Sürüş modunu kapat">×</button>
+      </div>
+      <p class="drive-status" id="drive-status">Önce Cozmo’ya bağlan.</p>
+      <div class="drive-pad" aria-label="Cozmo sürüş kontrolleri">
+        <button data-drive-key="ArrowUp" type="button"><kbd>↑</kbd><span>İleri</span></button>
+        <button data-drive-key="ArrowLeft" type="button"><kbd>←</kbd><span>Sol</span></button>
+        <button class="drive-stop" data-drive-key="Space" type="button"><kbd>SPACE</kbd><span>Dur</span></button>
+        <button data-drive-key="ArrowRight" type="button"><kbd>→</kbd><span>Sağ</span></button>
+        <button data-drive-key="ArrowDown" type="button"><kbd>↓</kbd><span>Geri</span></button>
+      </div>
+      <div class="drive-hints">
+        <span><kbd>W A S D</kbd> de çalışır</span>
+        <span>Her basış güvenli, kısa bir adım</span>
+        <span><kbd>ESC</kbd> kapatır</span>
+      </div>
+    </dialog>
   </body>
 </html>

@@ -80,6 +80,23 @@ button:focus-visible, input:focus-visible, a:focus-visible {
 .connection-pill span { width: 8px; height: 8px; border-radius: 50%; background: #9ba3aa; }
 .connection-pill.online span { background: var(--green); box-shadow: 0 0 0 5px rgba(33, 168, 117, 0.13); }
 .connection-pill.online b { color: #147650; }
+.file-preview {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto 18px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  border: 1px solid rgba(216, 73, 63, 0.25);
+  border-radius: 16px;
+  background: #fff5e8;
+  box-shadow: var(--shadow);
+}
+.file-preview[hidden] { display: none; }
+.file-preview div { display: grid; gap: 3px; }
+.file-preview span { color: var(--muted); font-size: 0.82rem; }
+.file-preview a { color: var(--ink); font-weight: 800; white-space: nowrap; }
 
 main { width: min(1180px, calc(100% - 40px)); margin: 0 auto 80px; }
 .panel {
@@ -180,6 +197,23 @@ label { display: block; margin-bottom: 8px; color: var(--muted); font-size: 0.78
 .dashboard-grid { margin-top: 20px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
 .controls, .camera, .capability-panel { padding: 27px; }
 .safe-badge { padding: 6px 10px; color: #147650; background: rgba(33, 168, 117, 0.08); }
+.drive-card { transition: border-color 160ms ease, transform 160ms ease; }
+.drive-card:hover { border-color: rgba(242, 169, 0, 0.52); }
+.drive-launch {
+  width: 100%;
+  min-height: 72px;
+  margin-bottom: 20px;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-color: rgba(242, 169, 0, 0.36);
+  background: linear-gradient(110deg, rgba(242, 169, 0, 0.16), rgba(86, 232, 239, 0.09));
+  text-align: left;
+}
+.drive-launch span { display: grid; gap: 3px; }
+.drive-launch small { color: var(--muted); font-weight: 500; }
+.drive-launch strong { font-size: 1.6rem; }
 .d-pad { width: 230px; margin: 0 auto 22px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .d-pad button { height: 58px; font-size: 1.35rem; }
 .d-pad button:first-child, .d-pad button:last-child { grid-column: 2; }
@@ -218,6 +252,35 @@ label { display: block; margin-bottom: 8px; color: var(--muted); font-size: 0.78
 #activity-log time { color: var(--muted); }
 .is-busy .cozmo-display { animation: breathe 700ms infinite alternate; }
 
+.drive-dialog {
+  width: min(720px, calc(100% - 28px));
+  margin: auto;
+  padding: clamp(24px, 5vw, 42px);
+  border: 0;
+  border-radius: 32px;
+  background: #1b2228;
+  color: white;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.42);
+}
+.drive-dialog::backdrop { background: rgba(15, 18, 21, 0.72); backdrop-filter: blur(9px); }
+.drive-dialog-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
+.drive-dialog h2 { font-size: clamp(2rem, 6vw, 3.6rem); letter-spacing: -0.055em; }
+.dialog-close { width: 46px; height: 46px; color: white; background: rgba(255, 255, 255, 0.08); font-size: 1.7rem; }
+.drive-status { margin: 12px 0 28px; color: #b8c0c6; }
+.drive-pad { width: min(440px, 100%); margin: auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.drive-pad button { min-height: 96px; display: grid; place-content: center; gap: 7px; color: white; background: #2b343b; border-color: rgba(255, 255, 255, 0.1); }
+.drive-pad button:first-child, .drive-pad button:last-child { grid-column: 2; }
+.drive-pad button:nth-child(2) { grid-column: 1; grid-row: 2; }
+.drive-pad .drive-stop { grid-column: 2; grid-row: 2; color: #ff8a81; background: rgba(216, 73, 63, 0.15); }
+.drive-pad button:nth-child(4) { grid-column: 3; grid-row: 2; }
+.drive-pad button.pressed { transform: scale(0.95); border-color: var(--cyan); box-shadow: 0 0 0 4px rgba(86, 232, 239, 0.12); }
+.drive-pad kbd { font: 800 1.7rem/1 "Avenir Next", sans-serif; }
+.drive-pad .drive-stop kbd { font-size: 0.78rem; letter-spacing: 0.08em; }
+.drive-pad span { color: #aeb8bf; font-size: 0.74rem; }
+.drive-hints { margin-top: 26px; display: flex; justify-content: center; flex-wrap: wrap; gap: 9px; }
+.drive-hints span { padding: 8px 10px; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 999px; color: #aeb8bf; font-size: 0.7rem; }
+.drive-hints kbd { color: white; font: 700 0.68rem/1 monospace; }
+
 @keyframes pulse { to { box-shadow: 0 0 0 9px rgba(216, 73, 63, 0.14); } }
 @keyframes breathe { to { box-shadow: inset 0 0 55px rgba(86, 232, 239, 0.2), 0 30px 50px rgba(0, 0, 0, 0.18); } }
 
@@ -238,6 +301,9 @@ label { display: block; margin-bottom: 8px; color: var(--muted); font-size: 0.78
   .section-heading { align-items: flex-start; }
   .capability-list { grid-template-columns: 1fr; }
   .connection-pill { padding: 8px 10px; }
+  .file-preview { width: calc(100% - 24px); align-items: flex-start; flex-direction: column; }
+  .drive-dialog { border-radius: 24px; }
+  .drive-pad button { min-height: 78px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

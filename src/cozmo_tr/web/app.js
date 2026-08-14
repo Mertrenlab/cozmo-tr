@@ -1,6 +1,11 @@
 const token = document.querySelector('meta[name="cozmo-token"]').content;
 const $ = (selector) => document.querySelector(selector);
 const controls = () => document.querySelectorAll('[data-command], #command-input, .send');
+const driveCommands = {
+  ArrowUp: 'ileri 50', ArrowDown: 'geri 50',
+  ArrowLeft: 'sola 45', ArrowRight: 'sağa 45', Space: 'dur',
+  KeyW: 'ileri 50', KeyS: 'geri 50', KeyA: 'sola 45', KeyD: 'sağa 45',
+};
 let connected = false;
 let busy = false;
 
@@ -24,6 +29,11 @@ function setConnected(value) {
   $('#disconnect-button').disabled = !value || busy;
   $('#stop-button').disabled = !value || busy;
   controls().forEach((control) => { control.disabled = !value || busy; });
+  document.querySelectorAll('[data-drive-key]').forEach((control) => {
+    control.disabled = !value || busy;
+  });
+  $('#drive-status').textContent = value
+    ? 'Hazır — bir tuşa her basışta kısa ve güvenli bir adım.' : 'Önce Cozmo’ya bağlan.';
 }
 
 function setBusy(value, message) {
@@ -137,11 +147,52 @@ function capabilityCard(item) {
   return card;
 }
 
+function openDriveMode() {
+  const dialog = $('#drive-dialog');
+  if (!dialog.open) dialog.showModal();
+}
+
+function closeDriveMode() {
+  if (connected && !busy) executeCommand('dur');
+  $('#drive-dialog').close();
+}
+
+function flashDriveKey(code) {
+  const key = code.startsWith('Key') ? `Arrow${{KeyW: 'Up', KeyS: 'Down', KeyA: 'Left', KeyD: 'Right'}[code]}` : code;
+  const button = document.querySelector(`[data-drive-key="${key}"]`);
+  if (!button) return;
+  button.classList.add('pressed');
+  window.setTimeout(() => button.classList.remove('pressed'), 180);
+}
+
+function handleDriveKey(event) {
+  if (!$('#drive-dialog').open || !driveCommands[event.code] || event.repeat) return;
+  if (event.target.matches('input, textarea, [contenteditable="true"]')) return;
+  event.preventDefault();
+  flashDriveKey(event.code);
+  executeCommand(driveCommands[event.code]);
+}
+
+function showFilePreview() {
+  $('#file-preview').hidden = false;
+  showFeedback('Önizleme açık. Robot kontrolü için Cozmo TR.app’ı çalıştır.', 'error');
+}
+
 function bindControls() {
   $('#connect-button').addEventListener('click', connectRobot);
   $('#disconnect-button').addEventListener('click', disconnectRobot);
   $('#stop-button').addEventListener('click', () => executeCommand('dur'));
   $('#listen-button').addEventListener('click', listen);
+  $('#drive-mode-button').addEventListener('click', openDriveMode);
+  $('#drive-card').addEventListener('click', (event) => {
+    if (!event.target.closest('button')) openDriveMode();
+  });
+  $('#drive-close').addEventListener('click', closeDriveMode);
+  $('#drive-dialog').addEventListener('cancel', (event) => {
+    event.preventDefault();
+    closeDriveMode();
+  });
+  document.addEventListener('keydown', handleDriveKey);
   $('#command-form').addEventListener('submit', (event) => {
     event.preventDefault();
     executeCommand($('#command-input').value);
@@ -149,9 +200,16 @@ function bindControls() {
   document.querySelectorAll('[data-command]').forEach((button) => {
     button.addEventListener('click', () => executeCommand(button.dataset.command, button.dataset.photo === 'true'));
   });
+  document.querySelectorAll('[data-drive-key]').forEach((button) => {
+    button.addEventListener('click', () => executeCommand(driveCommands[button.dataset.driveKey]));
+  });
 }
 
 bindControls();
-loadCapabilities();
 setConnected(false);
-loadStatus();
+if (window.location.protocol === 'file:') {
+  showFilePreview();
+} else {
+  loadCapabilities();
+  loadStatus();
+}

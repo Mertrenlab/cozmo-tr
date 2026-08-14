@@ -140,9 +140,10 @@ class DashboardApi:
         return HttpResponse(200, "text/html; charset=utf-8", body)
 
     def _asset_or_missing(self, path: str) -> HttpResponse:
-        name = path.removeprefix("/assets/")
+        name = path.removeprefix("/assets/").removeprefix("/")
         content_type = ASSET_TYPES.get(name)
-        if content_type is None or path != f"/assets/{name}":
+        valid_paths = {f"/{name}", f"/assets/{name}"}
+        if content_type is None or path not in valid_paths:
             return _json(404, {"ok": False, "message": "Sayfa bulunamadı."})
         return HttpResponse(200, content_type, self._asset_loader(name))
 
