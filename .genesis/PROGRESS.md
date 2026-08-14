@@ -9,6 +9,7 @@ YYYY-MM-DD HH:MM | ADR-refs | summary
 ## Log
 
 2026-08-14 20:20 | ADR-001 | Genesis Protocol kit generated; 13 initial ADRs logged
+2026-08-14 20:25 | ADR-002, ADR-004 | Implements safe parser core and macOS Turkish Cozmo WAV; 15 tests pass
 
 ## Append protocol for agents
 
