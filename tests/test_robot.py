@@ -71,6 +71,16 @@ class BrokenClient(FakeClient):
         raise TimeoutError("robot yok")
 
 
+class FakeBallSession:
+    """Record one delegated top command."""
+
+    def __init__(self) -> None:
+        self.calls: list[tuple[object, str]] = []
+
+    def play(self, client: object, mode: str) -> None:
+        self.calls.append((client, mode))
+
+
 class RobotAdapterTests(unittest.TestCase):
     """Verify connection safety and bounded action mapping."""
 
@@ -132,6 +142,18 @@ class RobotAdapterTests(unittest.TestCase):
     def test_default_pycozmo_factories_load(self) -> None:
         self.assertTrue(callable(_load_client_factory()))
         self.assertTrue(callable(_load_packet_factory()))
+
+    def test_ball_action_uses_bounded_camera_session(self) -> None:
+        session = FakeBallSession()
+        robot = PyCozmoRobot(
+            client_factory=lambda: self.client,
+            cliff_packet_factory=lambda enabled: ("cliff", enabled),
+            tts=FakeTts(),
+            ball_session=session,
+        )
+        robot.connect()
+        robot.execute(RobotAction(ActionKind.BALL, text="play"))
+        self.assertEqual(session.calls, [(self.client, "play")])
 
 
 if __name__ == "__main__":

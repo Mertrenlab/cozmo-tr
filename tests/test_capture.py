@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from cozmo_tr.capture import CaptureUnavailable, capture_photo
+from cozmo_tr.capture import CaptureUnavailable, capture_frame, capture_photo
 
 
 class FakeImage:
@@ -50,6 +50,13 @@ class CameraCaptureTests(unittest.TestCase):
                 timeout=0.0,
             )
             self.assertEqual(path.read_bytes(), b"image")
+        self.assertEqual(client.calls[-1], ("camera", False, False))
+
+    def test_returns_one_frame_without_writing_a_file(self) -> None:
+        image = FakeImage()
+        client = FakeCameraClient(image)
+        frame = capture_frame(client, event_type="image-event", timeout=0.0)
+        self.assertIs(frame, image)
         self.assertEqual(client.calls[-1], ("camera", False, False))
 
     def test_timeout_stops_stream_and_removes_handler(self) -> None:
