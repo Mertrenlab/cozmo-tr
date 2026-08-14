@@ -55,26 +55,32 @@ class CliTests(unittest.TestCase):
         transcriber = Mock()
         transcriber.transcribe_once.return_value = "ileri 999"
         output = StringIO()
-        with patch("cozmo_tr.cli.VoskTranscriber", return_value=transcriber):
-            with redirect_stdout(output):
-                code = main(["run", "--once"])
+        with (
+            patch("cozmo_tr.cli.VoskTranscriber", return_value=transcriber),
+            redirect_stdout(output),
+        ):
+            code = main(["run", "--once"])
         self.assertEqual(code, 0)
         self.assertIn('"value": 150.0', output.getvalue())
 
     def test_run_loop_can_exit_without_recording(self) -> None:
         transcriber = Mock()
-        with patch("cozmo_tr.cli.VoskTranscriber", return_value=transcriber):
-            with patch("builtins.input", return_value="q"):
-                code = main(["run"])
+        with (
+            patch("cozmo_tr.cli.VoskTranscriber", return_value=transcriber),
+            patch("builtins.input", return_value="q"),
+        ):
+            code = main(["run"])
         self.assertEqual(code, 0)
         transcriber.transcribe_once.assert_not_called()
 
     def test_voice_error_is_actionable(self) -> None:
         output = StringIO()
         error = SttUnavailable("mikrofon yok")
-        with patch("cozmo_tr.cli.VoskTranscriber", side_effect=error):
-            with redirect_stdout(output):
-                code = main(["run", "--once"])
+        with (
+            patch("cozmo_tr.cli.VoskTranscriber", side_effect=error),
+            redirect_stdout(output),
+        ):
+            code = main(["run", "--once"])
         self.assertEqual(code, 1)
         self.assertIn("mikrofon yok", output.getvalue())
 

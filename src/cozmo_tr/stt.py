@@ -32,7 +32,9 @@ class _AudioBuffer(Protocol):
 
 
 class _SoundDevice(Protocol):
-    def rec(self, frames: int, *, samplerate: int, channels: int, dtype: str) -> _AudioBuffer:
+    def rec(
+        self, frames: int, *, samplerate: int, channels: int, dtype: str
+    ) -> _AudioBuffer:
         """Start a blocking-compatible recording."""
         ...
 

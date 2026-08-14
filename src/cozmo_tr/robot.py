@@ -113,7 +113,9 @@ class PyCozmoRobot:
         value = _required_value(action)
         direction = 1.0 if value > 0 else -1.0
         duration = abs(value) / DRIVE_SPEED_MMPS
-        client.drive_wheels(direction * DRIVE_SPEED_MMPS, direction * DRIVE_SPEED_MMPS, duration)
+        client.drive_wheels(
+            direction * DRIVE_SPEED_MMPS, direction * DRIVE_SPEED_MMPS, duration
+        )
 
     @staticmethod
     def _turn(client: _Client, action: RobotAction) -> None:
@@ -121,7 +123,9 @@ class PyCozmoRobot:
         direction = 1.0 if value > 0 else -1.0
         turn_rate = TURN_RATE_AT_FULL_SPEED * DRIVE_SPEED_MMPS / FULL_SPEED_MMPS
         duration = abs(value) / turn_rate
-        client.drive_wheels(-direction * DRIVE_SPEED_MMPS, direction * DRIVE_SPEED_MMPS, duration)
+        client.drive_wheels(
+            -direction * DRIVE_SPEED_MMPS, direction * DRIVE_SPEED_MMPS, duration
+        )
 
     def _speak(self, client: _Client, text: str) -> None:
         with tempfile.TemporaryDirectory(prefix="cozmo-tr-") as directory:
@@ -138,7 +142,7 @@ def _required_value(action: RobotAction) -> float:
 
 def _load_client_factory() -> ClientFactory:
     module = import_module("pycozmo")
-    factory: object = getattr(module, "Client")
+    factory: object = module.Client
     if not callable(factory):
         raise RobotUnavailable("PyCozmo Client bulunamadı")
     return cast(ClientFactory, factory)
@@ -146,7 +150,7 @@ def _load_client_factory() -> ClientFactory:
 
 def _load_packet_factory() -> PacketFactory:
     module = import_module("pycozmo.protocol_encoder")
-    factory: object = getattr(module, "EnableStopOnCliff")
+    factory: object = module.EnableStopOnCliff
     if not callable(factory):
         raise RobotUnavailable("Uçurum koruma paketi bulunamadı")
     constructor = cast(Callable[..., object], factory)

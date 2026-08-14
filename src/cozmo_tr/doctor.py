@@ -52,7 +52,9 @@ def report_ok(checks: Sequence[Check]) -> bool:
 
 def format_report(checks: Sequence[Check]) -> str:
     """Render checks as concise Turkish status lines."""
-    return "\n".join(f"[{_label(check)}] {check.name}: {check.detail}" for check in checks)
+    return "\n".join(
+        f"[{_label(check)}] {check.name}: {check.detail}" for check in checks
+    )
 
 
 def _model_check(model: Path) -> Check:

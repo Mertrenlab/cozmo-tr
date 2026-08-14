@@ -121,7 +121,9 @@ def _make_robot(enabled: bool) -> _ManagedRobot:
     return PyCozmoRobot() if enabled else DryRunRobot()
 
 
-def _listen_once(transcriber: VoskTranscriber, service: TurnService, seconds: float) -> int:
+def _listen_once(
+    transcriber: VoskTranscriber, service: TurnService, seconds: float
+) -> int:
     print(f"Dinliyorum ({seconds:g} saniye)...")
     text = transcriber.transcribe_once(seconds)
     print(f"Duydum: {text or '(sessizlik)'}")
@@ -130,7 +132,9 @@ def _listen_once(transcriber: VoskTranscriber, service: TurnService, seconds: fl
     return 0 if result.accepted else 2
 
 
-def _listen_loop(transcriber: VoskTranscriber, service: TurnService, seconds: float) -> int:
+def _listen_loop(
+    transcriber: VoskTranscriber, service: TurnService, seconds: float
+) -> int:
     while input("Dinlemek için Enter, çıkmak için q: ").strip().casefold() != "q":
         _listen_once(transcriber, service, seconds)
     return 0

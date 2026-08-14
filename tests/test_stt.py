@@ -5,7 +5,12 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from cozmo_tr.stt import NativeVoskBackend, SttUnavailable, VoskTranscriber, _extract_text
+from cozmo_tr.stt import (
+    NativeVoskBackend,
+    SttUnavailable,
+    VoskTranscriber,
+    _extract_text,
+)
 
 
 class FakeSpeechBackend:
