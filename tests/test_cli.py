@@ -101,6 +101,31 @@ class CliTests(unittest.TestCase):
         self.assertEqual(code, 0)
         self.assertEqual(ball["state"], "hardware_pending")
 
+    def test_execute_runs_one_typed_command_and_always_closes_robot(self) -> None:
+        robot = Mock()
+        output = StringIO()
+        with (
+            patch("cozmo_tr.cli.PyCozmoRobot", return_value=robot),
+            redirect_stdout(output),
+        ):
+            code = main(["execute", "başını kaldır"])
+        self.assertEqual(code, 0)
+        robot.connect.assert_called_once_with()
+        robot.execute.assert_called_once()
+        robot.close.assert_called_once_with()
+        self.assertIn("güvenle uygulandı", output.getvalue())
+
+    def test_execute_rejects_unknown_text_without_robot_action(self) -> None:
+        robot = Mock()
+        with (
+            patch("cozmo_tr.cli.PyCozmoRobot", return_value=robot),
+            redirect_stdout(StringIO()),
+        ):
+            code = main(["execute", "ışınlan"])
+        self.assertEqual(code, 2)
+        robot.execute.assert_not_called()
+        robot.close.assert_called_once_with()
+
 
 if __name__ == "__main__":
     unittest.main()
