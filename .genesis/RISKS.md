@@ -46,6 +46,17 @@ Yeni riskler bulundukça append edilir; ID'ler değişmez.
 - Kill criterion: Temiz makinede yönergeyle kurulum tamamlanamıyorsa paketleme
   yeniden tasarlanır.
 
+### RISK-C6: Vision tracks the wrong object
+
+- Source: Adversary, `ADR-CON-002` review
+- Severity: critical
+- Description: Top, küp veya şarj algılayıcısı yanlış hedef seçip robotu
+  beklenmedik yönde hareket ettirebilir.
+- Mitigation: Güven skoru, kısa zaman aşımı, sonlu hareket, zemin smoke testi ve
+  her algı sonucunun `SafetyPolicy` kapısından geçmesi.
+- Kill criterion: Sentetik negatif karelerde hareket üretirse ilgili fiziksel
+  özellik `experimental` durumundan çıkarılamaz.
+
 ## Operational risks
 
 ### RISK-O1: Missing microphone permission

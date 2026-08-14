@@ -22,6 +22,7 @@ onu supersede eden yeni ADR yazmayı gerektirir.
 | ADR-DEP-003 | 2026-08-14 | Adopt sounddevice | accepted |
 | ADR-DEP-004 | 2026-08-14 | Adopt Python quality toolchain | accepted |
 | ADR-CON-001 | 2026-08-14 | Expand direct macOS capability scope | accepted |
+| ADR-CON-002 | 2026-08-15 | Retain complete Cozmo capability vision | accepted |
 
 ---
 
@@ -261,6 +262,30 @@ kurulum parçası yapılmaz.
 **Considered alternatives.** Resmî SDK zengin davranışlar sunsa da mobil
 uygulama gerektirdiği için reddedildi. PyCozmo kaynak arşivini otomatik indirmek
 tedarik zinciri ve lisans belirsizliği yüzünden varsayılan yapılmadı.
+
+## ADR-CON-002: Retain complete Cozmo capability vision
+
+- **Status:** accepted
+- **Date:** 2026-08-15
+- **Supersedes:** `ADR-CON-001` içindeki top oyunları kapsam dışı kararı
+
+**Context.** Kullanıcı henüz topu olmadığını fakat top oyunlarının projeden
+çıkarılmamasını ve macOS direct-mode ile teknik olarak yapılabilen bütün Cozmo
+yeteneklerinin uzun vadeli kapsamda kalmasını açıkça istedi.
+
+**Decision.** Top oyunu, küp/nesne etkileşimi, kontrollü görüntü işleme, yüz ve
+şarj davranışları yol haritasında kalır. Her yetenek `ready`, `experimental`
+veya `hardware_pending` durumlarından birini taşır. Top oyunu sentetik görüntü
+ve fake robotla tamamlanabilir; gerçek top smoke testi olmadan `ready` olamaz.
+Motor üreten her algı kararı `SafetyPolicy` üzerinden sonlu eyleme dönüşür.
+
+**Consequences.** “Her şey” tek release sözü değildir; fazlı ve ölçülebilir bir
+ürün vizyonudur. Mevcut Pillow/numpy yüzeyiyle kamera akışı kanıtlanmadan yeni
+CV bağımlılığı eklenmez. OpenCV veya yerel LLM ayrı bağımlılık ADR'si ister.
+
+**Considered alternatives.** Top özelliğini nesne gelene kadar silmek kapsamı
+daraltır fakat kullanıcı niyetini bozar. OpenCV'yi hemen eklemek hızlı görünse
+de kurulum ve bakım yüzeyini kanıt olmadan büyüttüğü için ertelendi.
 
 ## How to add a new ADR
 

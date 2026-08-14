@@ -15,6 +15,7 @@ YYYY-MM-DD HH:MM | ADR-refs | summary
 2026-08-14 21:15 | ADR-007, RISK-O4 | Cleans up the PyCozmo client after any partial connection failure
 2026-08-14 21:32 | ADR-006, ADR-007 | Publishes private GitHub repo; branch and tag CI pass
 2026-08-14 22:10 | ADR-CON-001, RISK-O6, RISK-O7 | Expands macOS-only direct capability scope; excludes ball games
+2026-08-15 00:05 | ADR-CON-002, RISK-C6 | Restores ball play and full phased Cozmo vision with explicit capability states
 
 ## Append protocol for agents
 

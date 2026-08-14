@@ -1,7 +1,7 @@
 # Constitution — Cozmo TR
 
 Adopted: 2026-08-14
-Amended: 2026-08-14 (`ADR-CON-001`)
+Amended: 2026-08-15 (`ADR-CON-001`, `ADR-CON-002`)
 Amendments: see `ADR-CON-*` entries in `.genesis/DECISIONS.md`
 
 Bu anayasa projenin değişmez kuruluş sözleşmesidir. Sonraki kararlar bu
@@ -17,7 +17,7 @@ yanıt almasını sağlar.
 
 - MVP doğal ve sınırsız sohbet asistanı değildir.
 - Web paneli, kalıcı hafıza veya denetimsiz otonom gezinme sunmaz.
-- Top oyunları ve doğrulanmamış mobil-uygulama davranışları sunmaz.
+- Doğrulanmamış mobil-uygulama davranışlarını tamamlanmış özellik diye sunmaz.
 - Mobil Cozmo uygulamasına veya sürekli bulut bağlantısına dayanmaz.
 - Belirsiz bir girdiyi hareket komutu olarak tahmin etmez.
 
@@ -42,6 +42,9 @@ yanıt almasını sağlar.
 - Basit çalışan kesit, spekülatif özellikten önce gelir.
 - Kamera ve bileşik hareketler yalnız açık kullanıcı komutuyla, sonlu süreyle
   ve donanımın doğrulanmış doğrudan API yüzeyi üzerinden çalışır.
+- Yetenekler `ready`, `experimental` veya `hardware_pending` durumuyla dürüstçe
+  işaretlenir; top ve benzeri fiziksel özellikler nesne yokken sentetik testle
+  hazırlanabilir fakat smoke test olmadan `ready` olamaz.
 
 ## Article V — Most-fragile assumption
 
