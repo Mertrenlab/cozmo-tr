@@ -54,6 +54,10 @@ def build_parser() -> argparse.ArgumentParser:
     say = commands.add_parser("say", help="Türkçe Cozmo WAV dosyası üret")
     say.add_argument("text")
     say.add_argument("--output", type=Path, default=DEFAULT_WAV)
+    execute = commands.add_parser(
+        "execute", help="Yazılı bir Türkçe komutu gerçek Cozmo'da çalıştır"
+    )
+    execute.add_argument("text")
     run = commands.add_parser("run", help="Mikrofondan bir veya çok komut dinle")
     run.add_argument("--model", type=Path, default=DEFAULT_MODEL)
     run.add_argument("--seconds", type=float, default=4.0)
@@ -78,6 +82,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             return _parse(cast(str, args.text))
         if command == "say":
             return _say(cast(str, args.text), cast(Path, args.output))
+        if command == "execute":
+            return _execute(cast(str, args.text))
         if command == "commands":
             return _commands()
         if command == "capabilities":
@@ -112,6 +118,17 @@ def _say(text: str, output: Path) -> int:
     spec = MacSayTts().synthesize(text, output)
     print(f"Hazır: {output} ({spec.sample_rate} Hz, mono, 16-bit)")
     return 0
+
+
+def _execute(text: str) -> int:
+    robot = PyCozmoRobot()
+    robot.connect()
+    try:
+        result = TurnService(robot).handle(text)
+        print(result.message)
+        return 0 if result.accepted else 2
+    finally:
+        robot.close()
 
 
 def _commands() -> int:
