@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Protocol, cast
 
 from cozmo_tr.actions import RobotAction, SafetyPolicy, UnsafeAction
+from cozmo_tr.capabilities import capability_payloads, command_lines
 from cozmo_tr.commands import parse_command
 from cozmo_tr.doctor import format_report, inspect_environment, report_ok
 from cozmo_tr.orchestrator import TurnService
@@ -58,6 +59,11 @@ def build_parser() -> argparse.ArgumentParser:
     run.add_argument("--seconds", type=float, default=4.0)
     run.add_argument("--robot", action="store_true")
     run.add_argument("--once", action="store_true")
+    commands.add_parser("commands", help="Desteklenen Türkçe komutları listele")
+    capabilities = commands.add_parser(
+        "capabilities", help="Yeteneklerin doğrulama durumunu göster"
+    )
+    capabilities.add_argument("--json", action="store_true")
     return parser
 
 
@@ -72,6 +78,10 @@ def main(argv: Sequence[str] | None = None) -> int:
             return _parse(cast(str, args.text))
         if command == "say":
             return _say(cast(str, args.text), cast(Path, args.output))
+        if command == "commands":
+            return _commands()
+        if command == "capabilities":
+            return _capabilities(cast(bool, args.json))
         return _run(args)
     except (RobotUnavailable, SttUnavailable, TtsUnavailable) as error:
         print(f"Hata: {error}")
@@ -101,6 +111,19 @@ def _parse(text: str) -> int:
 def _say(text: str, output: Path) -> int:
     spec = MacSayTts().synthesize(text, output)
     print(f"Hazır: {output} ({spec.sample_rate} Hz, mono, 16-bit)")
+    return 0
+
+
+def _commands() -> int:
+    print("\n".join(command_lines()))
+    return 0
+
+
+def _capabilities(as_json: bool) -> int:
+    if as_json:
+        print(json.dumps(capability_payloads(), ensure_ascii=False))
+    else:
+        print("\n".join(command_lines()))
     return 0
 
 
