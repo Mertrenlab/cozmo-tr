@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f2a900">
+    <meta name="cozmo-token" content="__COZMO_TOKEN__">
+    <title>Cozmo Kontrol Merkezi</title>
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script src="/assets/app.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Cozmo Kontrol Merkezi ana sayfa">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i></span>
+        <span>Cozmo <strong>TR</strong></span>
+      </a>
+      <div class="connection-pill" id="connection-pill" aria-live="polite">
+        <span></span><b>Bağlı değil</b>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero panel">
+        <div class="hero-copy">
+          <p class="eyebrow">YEREL • GÜVENLİ • TÜRKÇE</p>
+          <h1>Merhaba, pilot.</h1>
+          <p>Cozmo’yu bağla; konuş, yaz veya tek dokunuşla harekete geçir.</p>
+          <div class="hero-actions">
+            <button class="primary" id="connect-button" type="button">Cozmo’ya bağlan</button>
+            <button class="secondary" id="disconnect-button" type="button" disabled>Bağlantıyı kes</button>
+          </div>
+        </div>
+        <div class="cozmo-display" aria-hidden="true">
+          <div class="display-eyes"><i></i><i></i></div>
+          <span id="display-label">BEKLİYOR</span>
+        </div>
+      </section>
+
+      <section class="command-panel panel" aria-labelledby="command-title">
+        <div class="section-heading">
+          <div><p class="eyebrow">KOMUT MERKEZİ</p><h2 id="command-title">Ne yapalım?</h2></div>
+          <button class="stop" id="stop-button" type="button" disabled>■ ACİL DUR</button>
+        </div>
+        <form id="command-form">
+          <label for="command-input">Türkçe komut</label>
+          <div class="command-input-row">
+            <input id="command-input" name="command" autocomplete="off"
+              placeholder="Örn. başını kaldır" disabled>
+            <button class="send" type="submit" disabled>Gönder <span>↗</span></button>
+          </div>
+        </form>
+        <button class="listen" id="listen-button" type="button" disabled>
+          <span class="mic" aria-hidden="true">●</span>
+          <span><b>Bas ve konuş</b><small>Mac mikrofonu • 4 saniye</small></span>
+        </button>
+        <p class="feedback" id="feedback" aria-live="assertive">Başlamak için Cozmo’ya bağlan.</p>
+      </section>
+
+      <div class="dashboard-grid">
+        <section class="panel controls" aria-labelledby="movement-title">
+          <div class="section-heading compact">
+            <div><p class="eyebrow">HAREKET</p><h2 id="movement-title">Sürüş</h2></div>
+            <span class="safe-badge">Güvenli limit</span>
+          </div>
+          <div class="d-pad">
+            <button data-command="ileri 50" aria-label="50 milimetre ileri">↑</button>
+            <button data-command="sola 45" aria-label="45 derece sola">↶</button>
+            <button data-command="dur" class="d-stop" aria-label="Dur">■</button>
+            <button data-command="sağa 45" aria-label="45 derece sağa">↷</button>
+            <button data-command="geri 50" aria-label="50 milimetre geri">↓</button>
+          </div>
+          <div class="quick-grid two">
+            <button data-command="başını kaldır">Baş ↑</button>
+            <button data-command="başını indir">Baş ↓</button>
+            <button data-command="kolunu kaldır">Kol ↑</button>
+            <button data-command="kolunu indir">Kol ↓</button>
+          </div>
+        </section>
+
+        <section class="panel controls" aria-labelledby="personality-title">
+          <div class="section-heading compact">
+            <div><p class="eyebrow">KARAKTER</p><h2 id="personality-title">İfade ve rutin</h2></div>
+          </div>
+          <div class="quick-grid">
+            <button data-command="mutlu ol"><span>◡</span> Mutlu</button>
+            <button data-command="şaşır"><span>○</span> Şaşır</button>
+            <button data-command="selam ver"><span>⌁</span> Selam</button>
+            <button data-command="dans et"><span>♪</span> Dans</button>
+            <button data-command="kafanı salla"><span>↕</span> Baş salla</button>
+            <button data-command="şaka yap"><span>!</span> Şaka</button>
+          </div>
+        </section>
+
+        <section class="panel controls" aria-labelledby="light-title">
+          <div class="section-heading compact">
+            <div><p class="eyebrow">IŞIK &amp; NESNE</p><h2 id="light-title">Sahne</h2></div>
+          </div>
+          <div class="color-row" aria-label="Sırt ışığı rengi">
+            <button class="swatch red" data-command="ışıklarını kırmızı yap" aria-label="Kırmızı ışık"></button>
+            <button class="swatch green" data-command="ışıklarını yeşil yap" aria-label="Yeşil ışık"></button>
+            <button class="swatch blue" data-command="ışıklarını mavi yap" aria-label="Mavi ışık"></button>
+            <button class="swatch white" data-command="ışıklarını beyaz yap" aria-label="Beyaz ışık"></button>
+            <button data-command="ışıkları kapat">Kapat</button>
+          </div>
+          <div class="quick-grid two accessory-buttons">
+            <button data-command="kaç küp var">Küpleri bul</button>
+            <button data-command="küpü mavi yak">Küpü yak</button>
+            <button data-command="şarj ışığını yeşil yak">Platform</button>
+            <button data-command="topu bul">Topu bul</button>
+          </div>
+        </section>
+
+        <section class="panel camera" aria-labelledby="camera-title">
+          <div class="section-heading compact">
+            <div><p class="eyebrow">COZMO’NUN GÖZÜ</p><h2 id="camera-title">Son kare</h2></div>
+            <button class="camera-button" data-command="fotoğraf çek" data-photo="true">Fotoğraf çek</button>
+          </div>
+          <div class="camera-frame">
+            <img id="camera-preview" alt="Cozmo kamerasından son fotoğraf" hidden>
+            <div id="camera-empty"><span>◎</span><p>Henüz fotoğraf çekilmedi</p></div>
+          </div>
+        </section>
+      </div>
+
+      <section class="panel capability-panel" aria-labelledby="capability-title">
+        <div class="section-heading compact">
+          <div><p class="eyebrow">SİSTEM</p><h2 id="capability-title">Yetenek durumu</h2></div>
+          <button class="text-button" data-command="pilin ne kadar">Pilimi söyle</button>
+        </div>
+        <div class="capability-list" id="capability-list" aria-live="polite"></div>
+      </section>
+
+      <section class="activity" aria-labelledby="activity-title">
+        <div><p class="eyebrow">OTURUM</p><h2 id="activity-title">Son işlemler</h2></div>
+        <ol id="activity-log"><li><time>Şimdi</time><span>Panel hazır.</span></li></ol>
+      </section>
+    </main>
+  </body>
+</html>
