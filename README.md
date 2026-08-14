@@ -88,11 +88,15 @@ klasöründen taşımayın; isterseniz Dock'a veya masaüstüne alias ekleyin.
 Panel açılınca:
 
 1. `Cozmo'ya bağlan` düğmesine basın.
-2. Hazır hareket, ifade, ışık, küp ve kamera düğmelerinden birini seçin.
-3. Serbest Türkçe komutu kutuya yazın veya `Bas ve konuş` düğmesini kullanın.
-4. İşiniz bitince `Bağlantıyı kes` düğmesine basın.
+2. `Sürüş modunu aç` düğmesine basıp ok tuşları veya `W A S D` ile sürün;
+   `Space` durdurur, `Esc` paneli kapatır.
+3. Hazır ifade, ışık, küp ve kamera düğmelerinden birini seçin.
+4. Serbest Türkçe komutu kutuya yazın veya `Bas ve konuş` düğmesini kullanın.
+5. İşiniz bitince `Bağlantıyı kes` düğmesine basın.
 
 Panel yalnız bu Mac'teki `127.0.0.1` adresinde çalışır; internete yayınlanmaz.
+`src/cozmo_tr/web/index.html` dosyasını doğrudan açmayın; bu yalnız görsel
+önizlemedir ve robota bağlanamaz.
 Tarayıcı sekmesini yanlışlıkla kapatırsanız uygulamayı yeniden çift tıklamak
 mevcut paneli açar. Geliştirici alternatifi:
 
