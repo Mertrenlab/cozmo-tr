@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools==80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cozmo-tr"
+version = "0.1.0"
+description = "Safe offline Turkish voice prototype for Anki Cozmo"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [{name = "Cozmo TR contributors"}]
+dependencies = []
+
+[project.optional-dependencies]
+robot = ["pycozmo==0.8.0"]
+voice = ["sounddevice==0.5.5", "vosk==0.3.45"]
+dev = [
+  "mypy==2.3.0",
+  "pip-audit==2.10.1",
+  "pre-commit==4.6.2",
+  "pytest==9.1.1",
+  "pytest-cov==7.1.0",
+  "ruff==0.16.3",
+]
+
+[project.scripts]
+cozmo-tr = "cozmo_tr.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "--strict-config --strict-markers"
+testpaths = ["tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["cozmo_tr"]
+
+[tool.coverage.report]
+fail_under = 85
+show_missing = true
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+packages = ["cozmo_tr"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "C90", "UP", "ANN", "SIM"]
+mccabe.max-complexity = 8
