@@ -6,6 +6,7 @@ Not responsible for: fuzzy intent guessing, safety bounds, or hardware I/O.
 
 import re
 
+from cozmo_tr.accessory_commands import parse_accessory_command
 from cozmo_tr.actions import ActionKind, RobotAction
 
 DEFAULT_DISTANCE_MM = 50.0
@@ -136,6 +137,9 @@ def parse_command(text: str) -> RobotAction | None:
     speech = SPEECH_RE.match(cleaned)
     if speech:
         return RobotAction(ActionKind.SPEAK, text=speech.group(1).strip())
+    accessory = parse_accessory_command(cleaned)
+    if accessory is not None:
+        return accessory
     fixed = _fixed_action(cleaned)
     if fixed is not None:
         return fixed

@@ -91,6 +91,20 @@ CAPABILITIES: tuple[Capability, ...] = (
         ("topu bul", "topla oyna"),
         "Algılayıcı sentetik testli; gerçek top smoke testi bekliyor.",
     ),
+    Capability(
+        "cubes",
+        "Işıklı küpler",
+        CapabilityState.HARDWARE_PENDING,
+        ("kaç küp var", "küpü kırmızı yak", "küp ışıklarını kapat"),
+        "Üç küp türünü bulur; BLE bağlantısı ve LED smoke testi bekliyor.",
+    ),
+    Capability(
+        "charger",
+        "Şarj istasyonu ışıkları",
+        CapabilityState.HARDWARE_PENDING,
+        ("şarj ışığını mavi yak", "şarj ışığını kapat"),
+        "İstasyonun üç LED'ini kontrol eder; fiziksel smoke testi bekliyor.",
+    ),
 )
 
 

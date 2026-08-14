@@ -8,6 +8,7 @@ from collections.abc import Callable
 from importlib import import_module
 from typing import Protocol, cast
 
+from cozmo_tr.accessories import AccessoryClient, AccessorySession
 from cozmo_tr.actions import ActionKind, RobotAction
 from cozmo_tr.ball_session import BallSession
 from cozmo_tr.effects import EffectClient, RobotEffects, SpeechSynthesizer
@@ -16,15 +17,7 @@ from cozmo_tr.errors import RobotUnavailable as RobotUnavailable
 CONNECT_TIMEOUT_SECONDS = 8.0
 
 
-class _Connection(Protocol):
-    def send(self, packet: object) -> None:
-        """Send one encoded protocol packet."""
-        ...
-
-
-class _Client(EffectClient, Protocol):
-    conn: _Connection
-
+class _Client(AccessoryClient, Protocol):
     def start(self) -> None: ...
     def connect(self) -> None: ...
     def wait_for_robot(self, timeout: float = 5.0) -> None: ...
@@ -38,6 +31,10 @@ class _Effects(Protocol):
 
 class _BallSession(Protocol):
     def play(self, client: EffectClient, mode: str) -> None: ...
+
+
+class _AccessorySession(Protocol):
+    def play(self, client: AccessoryClient, command: str) -> None: ...
 
 
 ClientFactory = Callable[[], _Client]
@@ -54,12 +51,14 @@ class PyCozmoRobot:
         tts: SpeechSynthesizer | None = None,
         effects: _Effects | None = None,
         ball_session: _BallSession | None = None,
+        accessory_session: _AccessorySession | None = None,
     ) -> None:
         """Store injectable factories; no connection occurs yet."""
         self._client_factory = client_factory
         self._packet_factory = cliff_packet_factory
         self._effects = effects or RobotEffects(tts=tts)
         self._ball_session = ball_session or BallSession(self._effects)
+        self._accessory_session = accessory_session or AccessorySession(self._effects)
         self._client: _Client | None = None
 
     def connect(self) -> None:
@@ -82,6 +81,9 @@ class PyCozmoRobot:
         client = self._connected_client()
         if action.kind is ActionKind.BALL:
             self._ball_session.play(client, action.text)
+            return
+        if action.kind is ActionKind.ACCESSORY:
+            self._accessory_session.play(client, action.text)
             return
         self._effects.execute(client, action)
 

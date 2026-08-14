@@ -26,6 +26,7 @@ class ActionKind(StrEnum):
     VOLUME = "volume"
     ROUTINE = "routine"
     BALL = "ball"
+    ACCESSORY = "accessory"
 
 
 @dataclass(frozen=True, slots=True)
@@ -59,6 +60,21 @@ NAMED_VALUES: dict[ActionKind, frozenset[str]] = {
     ActionKind.STATUS: frozenset({"battery"}),
     ActionKind.ROUTINE: frozenset({"dance", "greet", "nod", "goodbye"}),
     ActionKind.BALL: frozenset({"find", "play"}),
+    ActionKind.ACCESSORY: frozenset(
+        {
+            "cube_count",
+            "cube_off",
+            "cube_red",
+            "cube_green",
+            "cube_blue",
+            "cube_white",
+            "charger_off",
+            "charger_red",
+            "charger_green",
+            "charger_blue",
+            "charger_white",
+        }
+    ),
 }
 
 
