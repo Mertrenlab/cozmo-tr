@@ -9,6 +9,7 @@ from typing import Protocol
 
 from cozmo_tr.actions import RobotAction, SafetyPolicy, UnsafeAction
 from cozmo_tr.commands import parse_command
+from cozmo_tr.routines import expand_action
 
 
 class RobotPort(Protocol):
@@ -43,9 +44,11 @@ class TurnService:
             return TurnResult(False, _unknown_message())
         try:
             safe = self._policy.enforce(action)
+            plan = tuple(self._policy.enforce(item) for item in expand_action(safe))
         except UnsafeAction as error:
             return TurnResult(False, f"Komut güvenli değil: {error}")
-        self._robot.execute(safe)
+        for item in plan:
+            self._robot.execute(item)
         return TurnResult(True, "Komut güvenle uygulandı.", safe)
 
 
