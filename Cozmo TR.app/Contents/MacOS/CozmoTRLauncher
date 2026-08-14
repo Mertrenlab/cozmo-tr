@@ -1,0 +1,25 @@
+#!/bin/zsh
+set -eu
+
+launcher_dir=${0:A:h}
+project_dir=${launcher_dir:h:h:h}
+dashboard_url="http://127.0.0.1:8765"
+cozmo_command="$project_dir/.venv/bin/cozmo-tr"
+log_directory="$HOME/Library/Logs"
+log_file="$log_directory/CozmoTR.log"
+
+if /usr/bin/curl --silent --fail --max-time 1 \
+  "$dashboard_url/api/status" | /usr/bin/grep --quiet '"service": "cozmo-tr"'; then
+  /usr/bin/open "$dashboard_url"
+  exit 0
+fi
+
+if [[ ! -x "$cozmo_command" ]]; then
+  /usr/bin/osascript -e \
+    'display alert "Kurulum eksik" message "Önce README içindeki tek seferlik kurulumu tamamlayın." as critical'
+  exit 1
+fi
+
+/bin/mkdir -p "$log_directory"
+cd "$project_dir"
+exec "$cozmo_command" dashboard >> "$log_file" 2>&1
