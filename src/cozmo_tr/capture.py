@@ -11,6 +11,8 @@ from pathlib import Path
 from threading import Event
 from typing import Protocol
 
+from cozmo_tr.ball import RgbFrame
+
 DEFAULT_CAPTURE_DIR = Path("captures")
 CAPTURE_TIMEOUT_SECONDS = 3.0
 
@@ -19,7 +21,7 @@ class CaptureUnavailable(RuntimeError):
     """Report a camera timeout, storage error, or unavailable event API."""
 
 
-class CameraImage(Protocol):
+class CameraImage(RgbFrame, Protocol):
     """Describe the image save surface returned by PyCozmo."""
 
     def save(self, path: Path) -> None: ...
@@ -47,6 +49,16 @@ def capture_photo(
     timeout: float = CAPTURE_TIMEOUT_SECONDS,
 ) -> Path:
     """Save one requested frame, stop streaming, or raise with no silent retry."""
+    image = capture_frame(client, event_type=event_type, timeout=timeout)
+    return _save_image(image, output_dir, filename)
+
+
+def capture_frame(
+    client: CameraClient,
+    event_type: object | None = None,
+    timeout: float = CAPTURE_TIMEOUT_SECONDS,
+) -> CameraImage:
+    """Return one requested frame and always stop camera streaming."""
     received = Event()
     images: list[CameraImage] = []
 
@@ -60,7 +72,7 @@ def capture_photo(
         client.enable_camera(True, color=True)
         if not received.wait(timeout):
             raise CaptureUnavailable("Kamera karesi zamanında gelmedi")
-        return _save_image(images[0], output_dir, filename)
+        return images[0]
     finally:
         client.del_handler(event, handler)
         client.enable_camera(False)

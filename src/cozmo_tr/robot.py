@@ -8,7 +8,8 @@ from collections.abc import Callable
 from importlib import import_module
 from typing import Protocol, cast
 
-from cozmo_tr.actions import RobotAction
+from cozmo_tr.actions import ActionKind, RobotAction
+from cozmo_tr.ball_session import BallSession
 from cozmo_tr.effects import EffectClient, RobotEffects, SpeechSynthesizer
 from cozmo_tr.errors import RobotUnavailable as RobotUnavailable
 
@@ -35,6 +36,10 @@ class _Effects(Protocol):
     def execute(self, client: EffectClient, action: RobotAction) -> None: ...
 
 
+class _BallSession(Protocol):
+    def play(self, client: EffectClient, mode: str) -> None: ...
+
+
 ClientFactory = Callable[[], _Client]
 PacketFactory = Callable[[bool], object]
 
@@ -48,11 +53,13 @@ class PyCozmoRobot:
         cliff_packet_factory: PacketFactory | None = None,
         tts: SpeechSynthesizer | None = None,
         effects: _Effects | None = None,
+        ball_session: _BallSession | None = None,
     ) -> None:
         """Store injectable factories; no connection occurs yet."""
         self._client_factory = client_factory
         self._packet_factory = cliff_packet_factory
         self._effects = effects or RobotEffects(tts=tts)
+        self._ball_session = ball_session or BallSession(self._effects)
         self._client: _Client | None = None
 
     def connect(self) -> None:
@@ -73,6 +80,9 @@ class PyCozmoRobot:
     def execute(self, action: RobotAction) -> None:
         """Map one already-safe action to a finite hardware operation."""
         client = self._connected_client()
+        if action.kind is ActionKind.BALL:
+            self._ball_session.play(client, action.text)
+            return
         self._effects.execute(client, action)
 
     def close(self) -> None:
