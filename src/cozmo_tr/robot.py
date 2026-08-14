@@ -78,6 +78,7 @@ class PyCozmoRobot:
             client.wait_for_robot(timeout=CONNECT_TIMEOUT_SECONDS)
             client.conn.send(packet_factory(True))
         except Exception as error:
+            _run_shutdown(client)
             raise RobotUnavailable("Cozmo bağlantısı kurulamadı") from error
         self._client = client
 
