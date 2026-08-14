@@ -13,6 +13,7 @@ YYYY-MM-DD HH:MM | ADR-refs | summary
 2026-08-14 21:05 | ADR-002, ADR-007 | Adds CLI, Vosk and PyCozmo adapters; 43 tests pass at 96.25% coverage
 2026-08-14 21:07 | ADR-010, RISK-O5 | Pins Python 3.11–3.12 and Vosk 0.3.44 for Apple Silicon compatibility
 2026-08-14 21:15 | ADR-007, RISK-O4 | Cleans up the PyCozmo client after any partial connection failure
+2026-08-14 21:32 | ADR-006, ADR-007 | Publishes private GitHub repo; branch and tag CI pass
 
 ## Append protocol for agents
 
