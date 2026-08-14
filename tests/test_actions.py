@@ -45,6 +45,40 @@ class SafetyPolicyTests(unittest.TestCase):
         with self.assertRaises(UnsafeAction):
             self.policy.enforce(RobotAction(ActionKind.SPEAK, text="   "))
 
+    def test_clamps_head_lift_and_volume(self) -> None:
+        head = self.policy.enforce(RobotAction(ActionKind.HEAD, value=200.0))
+        lift = self.policy.enforce(RobotAction(ActionKind.LIFT, value=-20.0))
+        volume = self.policy.enforce(RobotAction(ActionKind.VOLUME, value=150.0))
+        self.assertEqual(head.value, 44.5)
+        self.assertEqual(lift.value, 32.0)
+        self.assertEqual(volume.value, 100.0)
+
+    def test_accepts_named_non_motor_actions(self) -> None:
+        actions = (
+            RobotAction(ActionKind.LIGHTS, text="blue"),
+            RobotAction(ActionKind.FACE, text="surprised"),
+            RobotAction(ActionKind.CAMERA, text="capture"),
+            RobotAction(ActionKind.STATUS, text="battery"),
+            RobotAction(ActionKind.ROUTINE, text="dance"),
+        )
+        self.assertEqual(tuple(map(self.policy.enforce, actions)), actions)
+
+    def test_rejects_unknown_named_actions(self) -> None:
+        invalid = (
+            RobotAction(ActionKind.LIGHTS, text="purple"),
+            RobotAction(ActionKind.FACE, text="sleepy"),
+            RobotAction(ActionKind.CAMERA, text="record"),
+            RobotAction(ActionKind.ROUTINE, text="play_ball"),
+        )
+        for action in invalid:
+            with self.subTest(action=action), self.assertRaises(UnsafeAction):
+                self.policy.enforce(action)
+
+    def test_headlight_requires_boolean_number(self) -> None:
+        for value in (None, -1.0, 0.5, 2.0):
+            with self.subTest(value=value), self.assertRaises(UnsafeAction):
+                self.policy.enforce(RobotAction(ActionKind.HEADLIGHT, value=value))
+
     def test_rejects_unknown_action_kind(self) -> None:
         unknown = cast(ActionKind, object())
         with self.assertRaises(UnsafeAction):

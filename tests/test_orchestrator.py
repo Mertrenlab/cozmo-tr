@@ -49,6 +49,25 @@ class TurnServiceTests(unittest.TestCase):
         self.assertEqual(robot.actions, [])
         self.assertIn("güvenli değil", result.message)
 
+    def test_expands_dance_into_safe_primitives(self) -> None:
+        robot = FakeRobot()
+        result = TurnService(robot).handle("dans et")
+        self.assertTrue(result.accepted)
+        self.assertGreater(len(robot.actions), 3)
+        self.assertTrue(
+            all(action.kind is not ActionKind.ROUTINE for action in robot.actions)
+        )
+        self.assertEqual(robot.actions[-1], RobotAction(ActionKind.STOP))
+
+    def test_greeting_includes_turkish_speech(self) -> None:
+        robot = FakeRobot()
+        result = TurnService(robot).handle("selam ver")
+        self.assertTrue(result.accepted)
+        speech = [
+            action.text for action in robot.actions if action.kind is ActionKind.SPEAK
+        ]
+        self.assertEqual(speech, ["Selam!"])
+
 
 if __name__ == "__main__":
     unittest.main()
