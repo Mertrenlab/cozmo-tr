@@ -156,3 +156,13 @@ Yeni riskler bulundukça append edilir; ID'ler değişmez.
 - Mitigation: Sonlu keşif, fabrika kimliği doğrulaması ve tekrar denenebilir
   tek-komut smoke akışı.
 - Detection: `Küp bulunamadı`, `Şarj istasyonu bulunamadı` veya bağlantı hatası.
+
+### RISK-O9: A local webpage triggers an unintended robot action
+
+- Source: Adversary, `ADR-CON-003`
+- Severity: critical
+- Description: Tarayıcıdaki başka bir sayfa loopback API'ye istek göndererek
+  robotu kullanmaya çalışabilir veya eşzamanlı komutlar çakışabilir.
+- Mitigation: Loopback binding, süreç başına rastgele POST anahtarı, JSON içerik
+  zorunluluğu, tek komut kilidi ve açık bağlantı düğmesi.
+- Detection: Eksik/yanlış anahtarlı istek 403; bağlı değilken komut 409 döner.

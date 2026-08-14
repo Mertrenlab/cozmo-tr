@@ -319,3 +319,25 @@ protokol kullanımı adaptör içinde ve fake testlerle izole kalır.
 
 **Considered alternatives.** Sonsuz polling ve ilk bağlı nesneyi seçme,
 tekrar üretilemez ve yanlış hedef riski nedeniyle reddedildi.
+
+## ADR-CON-003: Permit a loopback-only local dashboard
+
+- **Status:** accepted
+- **Date:** 2026-08-15
+- **Supersedes:** Article II içindeki genel web paneli yasağı
+
+**Context.** Kullanıcı günlük çalışmada terminal kullanmak istemiyor ve mevcut
+doğrudan Cozmo yeteneklerinin bir dashboard'dan yönetilmesini açıkça istedi.
+Public bir site Mac'in Cozmo Wi-Fi oturumuna güvenli erişemez.
+
+**Decision.** Tek sayfalı dashboard yalnız `127.0.0.1` üzerinde, Python stdlib
+HTTP sunucusuyla çalışır. Yeni runtime bağımlılığı alınmaz. Her POST rastgele
+oturum anahtarı ister; robot komutları yine `TurnService` ve `SafetyPolicy`
+üzerinden geçer. Bağlantı kullanıcı tarafından açıkça başlatılır.
+
+**Consequences.** Dashboard internet ve hesap gerektirmez; çift tıklanan macOS
+uygulaması tarayıcıyı açabilir. Uzak erişim, kalıcı konuşma geçmişi ve sürekli
+kamera akışı kapsam dışıdır.
+
+**Considered alternatives.** Hosted dashboard donanıma erişemez; Flask/FastAPI
+gereksiz bağımlılık ekler; Electron ise eski robot projesi için ağırdır.

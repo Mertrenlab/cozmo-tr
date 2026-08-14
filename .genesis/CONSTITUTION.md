@@ -1,7 +1,7 @@
 # Constitution — Cozmo TR
 
 Adopted: 2026-08-14
-Amended: 2026-08-15 (`ADR-CON-001`, `ADR-CON-002`)
+Amended: 2026-08-15 (`ADR-CON-001`, `ADR-CON-002`, `ADR-CON-003`)
 Amendments: see `ADR-CON-*` entries in `.genesis/DECISIONS.md`
 
 Bu anayasa projenin değişmez kuruluş sözleşmesidir. Sonraki kararlar bu
@@ -16,7 +16,7 @@ yanıt almasını sağlar.
 ## Article II — Non-purposes
 
 - MVP doğal ve sınırsız sohbet asistanı değildir.
-- Web paneli, kalıcı hafıza veya denetimsiz otonom gezinme sunmaz.
+- Public/uzak web paneli, kalıcı hafıza veya denetimsiz gezinme sunmaz.
 - Doğrulanmamış mobil-uygulama davranışlarını tamamlanmış özellik diye sunmaz.
 - Mobil Cozmo uygulamasına veya sürekli bulut bağlantısına dayanmaz.
 - Belirsiz bir girdiyi hareket komutu olarak tahmin etmez.
@@ -45,6 +45,8 @@ yanıt almasını sağlar.
 - Yetenekler `ready`, `experimental` veya `hardware_pending` durumuyla dürüstçe
   işaretlenir; top ve benzeri fiziksel özellikler nesne yokken sentetik testle
   hazırlanabilir fakat smoke test olmadan `ready` olamaz.
+- Yerel dashboard yalnız loopback adresinde çalışır; komutlar aynı tipli eylem
+  ve güvenlik kapısından geçer, uzaktan robot kontrolü açmaz.
 
 ## Article V — Most-fragile assumption
 
