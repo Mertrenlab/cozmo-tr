@@ -55,6 +55,7 @@ class DashboardAssetTests(unittest.TestCase):
             "ArrowRight: 'sağa 45'",
             "Space: 'dur'",
             "KeyW: 'ileri 50'",
+            "event.code === 'Escape'",
             "openDriveMode",
         ):
             with self.subTest(expected=expected):
