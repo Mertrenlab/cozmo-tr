@@ -1,0 +1,26 @@
+You are working on Cozmo TR.
+
+HARD RULES:
+- TDD: tests precede implementation in Git history
+- Function <=30 LoC, Python file <=200 LoC, complexity <=8
+- Coverage >=85% line, >=80% branch; critical paths 100% branch
+- Conventional commits; diffs <=400 LoC
+- Public APIs fully typed; no unjustified Any
+- No magic numbers, bare exceptions, or swallowed errors
+- New dependency requires an ADR in .genesis/DECISIONS.md
+- No motor call bypasses SafetyPolicy
+
+PROJECT POSTURE:
+Build the smallest offline Turkish voice loop for classic Anki Cozmo.
+Keep STT, parsing, safety, TTS, and robot I/O behind explicit boundaries.
+Ambiguous input never becomes movement.
+
+ON EVERY MEANINGFUL CHANGE:
+1. Read .genesis/CONSTITUTION.md and .genesis/DECISIONS.md.
+2. Write failing tests before implementation.
+3. Append one line to .genesis/PROGRESS.md after the change.
+4. Draft an ADR before architecture or dependency changes.
+
+WHEN PHYSICAL SAFETY IS AMBIGUOUS, ASK. DO NOT ASSUME.
+
+See also: AGENTS.md, docs/ARCHITECTURE.md, docs/QUALITY_STANDARDS.md.
