@@ -30,6 +30,9 @@ cozmo-tr = "cozmo_tr.cli:main"
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+"cozmo_tr.web" = ["*.html", "*.css", "*.js"]
+
 [tool.pytest.ini_options]
 addopts = "--strict-config --strict-markers"
 testpaths = ["tests"]

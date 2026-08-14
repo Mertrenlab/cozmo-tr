@@ -13,6 +13,7 @@ from typing import Protocol, cast
 from cozmo_tr.actions import RobotAction, SafetyPolicy, UnsafeAction
 from cozmo_tr.capabilities import capability_payloads, command_lines
 from cozmo_tr.commands import parse_command
+from cozmo_tr.dashboard_http import run_dashboard
 from cozmo_tr.doctor import format_report, inspect_environment, report_ok
 from cozmo_tr.orchestrator import TurnService
 from cozmo_tr.robot import PyCozmoRobot, RobotUnavailable
@@ -68,6 +69,9 @@ def build_parser() -> argparse.ArgumentParser:
         "capabilities", help="Yeteneklerin doğrulama durumunu göster"
     )
     capabilities.add_argument("--json", action="store_true")
+    dashboard = commands.add_parser("dashboard", help="Yerel kontrol panelini aç")
+    dashboard.add_argument("--port", type=int, default=8765)
+    dashboard.add_argument("--no-browser", action="store_true")
     return parser
 
 
@@ -88,7 +92,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             return _commands()
         if command == "capabilities":
             return _capabilities(cast(bool, args.json))
-        return _run(args)
+        return _runtime(command, args)
     except (RobotUnavailable, SttUnavailable, TtsUnavailable) as error:
         print(f"Hata: {error}")
         return 1
@@ -142,6 +146,15 @@ def _capabilities(as_json: bool) -> int:
     else:
         print("\n".join(command_lines()))
     return 0
+
+
+def _runtime(command: str, args: argparse.Namespace) -> int:
+    if command == "dashboard":
+        run_dashboard(
+            port=cast(int, args.port), open_browser=not cast(bool, args.no_browser)
+        )
+        return 0
+    return _run(args)
 
 
 def _run(args: argparse.Namespace) -> int:
