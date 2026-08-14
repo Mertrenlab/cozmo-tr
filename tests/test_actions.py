@@ -60,6 +60,7 @@ class SafetyPolicyTests(unittest.TestCase):
             RobotAction(ActionKind.CAMERA, text="capture"),
             RobotAction(ActionKind.STATUS, text="battery"),
             RobotAction(ActionKind.ROUTINE, text="dance"),
+            RobotAction(ActionKind.BALL, text="play"),
         )
         self.assertEqual(tuple(map(self.policy.enforce, actions)), actions)
 
@@ -69,6 +70,7 @@ class SafetyPolicyTests(unittest.TestCase):
             RobotAction(ActionKind.FACE, text="sleepy"),
             RobotAction(ActionKind.CAMERA, text="record"),
             RobotAction(ActionKind.ROUTINE, text="play_ball"),
+            RobotAction(ActionKind.BALL, text="kick"),
         )
         for action in invalid:
             with self.subTest(action=action), self.assertRaises(UnsafeAction):

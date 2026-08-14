@@ -84,6 +84,23 @@ class CliTests(unittest.TestCase):
         self.assertEqual(code, 1)
         self.assertIn("mikrofon yok", output.getvalue())
 
+    def test_commands_lists_ball_and_direct_controls(self) -> None:
+        output = StringIO()
+        with redirect_stdout(output):
+            code = main(["commands"])
+        self.assertEqual(code, 0)
+        self.assertIn("topla oyna", output.getvalue())
+        self.assertIn("başını kaldır", output.getvalue())
+
+    def test_capabilities_exposes_honest_states_as_json(self) -> None:
+        output = StringIO()
+        with redirect_stdout(output):
+            code = main(["capabilities", "--json"])
+        payload = json.loads(output.getvalue())
+        ball = next(item for item in payload if item["id"] == "ball_play")
+        self.assertEqual(code, 0)
+        self.assertEqual(ball["state"], "hardware_pending")
+
 
 if __name__ == "__main__":
     unittest.main()

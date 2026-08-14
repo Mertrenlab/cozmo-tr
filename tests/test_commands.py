@@ -62,6 +62,10 @@ class TurkishCommandTests(unittest.TestCase):
         expected = RobotAction(ActionKind.SPEAK, text="İyiyim, teşekkür ederim.")
         self.assert_action("nasılsın", expected)
 
+    def test_keeps_ball_commands_in_the_grammar(self) -> None:
+        self.assert_action("topu bul", RobotAction(ActionKind.BALL, text="find"))
+        self.assert_action("topla oyna", RobotAction(ActionKind.BALL, text="play"))
+
     def test_rejects_unknown_or_ambiguous_movement(self) -> None:
         self.assertIsNone(parse_command("   "))
         self.assertIsNone(parse_command("bugün hava nasıl"))
