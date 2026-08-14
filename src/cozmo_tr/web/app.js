@@ -166,7 +166,13 @@ function flashDriveKey(code) {
 }
 
 function handleDriveKey(event) {
-  if (!$('#drive-dialog').open || !driveCommands[event.code] || event.repeat) return;
+  if (!$('#drive-dialog').open) return;
+  if (event.code === 'Escape') {
+    event.preventDefault();
+    closeDriveMode();
+    return;
+  }
+  if (!driveCommands[event.code] || event.repeat) return;
   if (event.target.matches('input, textarea, [contenteditable="true"]')) return;
   event.preventDefault();
   flashDriveKey(event.code);
