@@ -34,3 +34,4 @@ iştir. Tek yazım veya biçim düzeltmesi kayıt gerektirmez.
 
 2026-08-15 00:24 | ADR-CON-002, ADR-011 | Adds bounded ball, cube, charger and full direct Cozmo capability paths
 2026-08-15 00:24 | ADR-007 | Publishes typed hardware execute flow and runbook; 94 tests pass at 96.00% coverage
+2026-08-15 00:49 | ADR-CON-003, RISK-O9 | Ships local dashboard and Finder app; 115 tests pass at 95.83%
