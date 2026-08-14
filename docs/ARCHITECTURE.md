@@ -29,7 +29,7 @@ eylem geçmez. Değişiklikler ADR ve geriye uyumluluk testi gerektirir.
 
 | Layer | Choice | Rationale | ADR |
 |---|---|---|---|
-| Language | Python 3.11+ | PyCozmo/Vosk ekosistemi ve hızlı prototip | ADR-003 |
+| Language | Python 3.11–3.12 | PyCozmo/Vosk uyumu ve hızlı prototip | ADR-003, ADR-010 |
 | CLI | `argparse` | Yeni runtime bağımlılığı yok | ADR-003 |
 | STT | Vosk Turkish | Küçük, çevrimdışı, komut odaklı | ADR-DEP-002 |
 | TTS | macOS `say` + `afconvert` | Bu Mac'te hazır ve Türkçe Yelda sesi var | ADR-004 |

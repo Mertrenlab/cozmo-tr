@@ -7,7 +7,7 @@ name = "cozmo-tr"
 version = "0.1.0"
 description = "Safe offline Turkish voice prototype for Anki Cozmo"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.13"
 license = "MIT"
 authors = [{name = "Cozmo TR contributors"}]
 dependencies = []

@@ -16,6 +16,7 @@ onu supersede eden yeni ADR yazmayı gerektirir.
 | ADR-007 | 2026-08-14 | Fake CI and manual hardware smoke test | accepted |
 | ADR-008 | 2026-08-14 | Clean-room MIT implementation | accepted |
 | ADR-009 | 2026-08-14 | STT acceptance and fallback rule | accepted |
+| ADR-010 | 2026-08-14 | Pin supported Python and Vosk versions | accepted |
 | ADR-DEP-001 | 2026-08-14 | Adopt PyCozmo | accepted |
 | ADR-DEP-002 | 2026-08-14 | Adopt Vosk Turkish | accepted |
 | ADR-DEP-003 | 2026-08-14 | Adopt sounddevice | accepted |
@@ -218,6 +219,23 @@ pip-audit kullanılır.
 
 **Considered alternatives.** Yalnız stdlib unittest coverage, type ve güvenlik
 kapılarını tek başına sağlayamadığı için reddedildi.
+
+## ADR-010: Pin supported Python and Vosk versions
+
+- **Status:** accepted
+- **Date:** 2026-08-14
+
+**Context.** Vosk 0.3.45 için Apple Silicon/Python 3.12 wheel bulunmadı;
+PyCozmo'nun kullandığı `chunk` modülü Python 3.13'te kaldırıldı.
+
+**Decision.** Vosk 0.3.44 sabitlenir ve desteklenen Python aralığı 3.11–3.12
+olarak ilan edilir.
+
+**Consequences.** Mac kurulumu binary wheel ile tekrar üretilebilir; Python 3.13
+PyCozmo adaptörü yenilenmeden desteklenmez.
+
+**Considered alternatives.** Kaynaktan Vosk derlemek ve PyCozmo'yu vendor etmek
+hızlı prototipin kurulum ve bakım yüzeyini gereksiz büyüttüğü için reddedildi.
 
 ## How to add a new ADR
 

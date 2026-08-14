@@ -10,6 +10,8 @@ YYYY-MM-DD HH:MM | ADR-refs | summary
 
 2026-08-14 20:20 | ADR-001 | Genesis Protocol kit generated; 13 initial ADRs logged
 2026-08-14 20:25 | ADR-002, ADR-004 | Implements safe parser core and macOS Turkish Cozmo WAV; 15 tests pass
+2026-08-14 21:05 | ADR-002, ADR-007 | Adds CLI, Vosk and PyCozmo adapters; 43 tests pass at 96.25% coverage
+2026-08-14 21:07 | ADR-010, RISK-O5 | Pins Python 3.11–3.12 and Vosk 0.3.44 for Apple Silicon compatibility
 
 ## Append protocol for agents
 

@@ -80,6 +80,14 @@ Yeni riskler bulundukça append edilir; ID'ler değişmez.
 - Mitigation: Sonlu süreli motor çağrıları, `STOP` önceliği ve kapanış denemesi.
 - Detection: Adaptör hatası ve bağlantı durum olayı.
 
+### RISK-O5: Legacy packages break on newer Python
+
+- Source: Builder, Phase 3
+- Severity: medium
+- Description: Vosk wheel ve PyCozmo stdlib kullanımı yeni Python ile kırılır.
+- Mitigation: Python 3.11–3.12 ve Vosk 0.3.44 sabitlenir; `doctor` importları dener.
+- Detection: Kurulumda wheel bulunamaması veya PyCozmo import hatası.
+
 ## User-experience risks
 
 ### RISK-U1: Listening state is unclear

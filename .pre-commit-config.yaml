@@ -1,0 +1,31 @@
+repos:
+  - repo: local
+    hooks:
+      - id: ruff-check
+        name: ruff check
+        entry: .venv/bin/ruff check
+        language: system
+        types: [python]
+      - id: ruff-format
+        name: ruff format check
+        entry: .venv/bin/ruff format --check
+        language: system
+        types: [python]
+      - id: mypy
+        name: mypy strict
+        entry: .venv/bin/mypy --strict src
+        language: system
+        pass_filenames: false
+      - id: pytest
+        name: pytest with coverage
+        entry: .venv/bin/pytest --cov=cozmo_tr --cov-branch --cov-fail-under=85
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+      - id: conventional-commit
+        name: conventional commit message
+        entry: '^(feat|fix|docs|test|refactor|perf|build|ci|chore)(\([^)]+\))?!?: .+'
+        language: pygrep
+        stages: [commit-msg]
+        args: [--negate]
+        types: [text]
