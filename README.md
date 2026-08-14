@@ -9,26 +9,52 @@ Cozmo TR klasik Anki Cozmo'yu doğrudan Wi-Fi üzerinden kontrol eder. İlk hede
 Türkçe deterministik komutlar, sınırlı hareket ve robot hoparlöründen Türkçe
 sestir; telefon uygulaması ve bulut zorunlu değildir.
 
-Şu an MVP geliştirilmektedir. Donanım olmadan parser, güvenlik ve ses biçimi
-test edilir; fiziksel robot ayrı smoke testte zeminde doğrulanır.
+Şu an yazılım prototipi hazırdır. Donanım olmadan parser, güvenlik, STT
+sınırları ve ses biçimi test edilir; fiziksel robot ayrı smoke testte zeminde
+doğrulanır.
 
 ## Status
 
-MVP in progress — Genesis kit complete, implementation follows TDD.
+Software MVP ready — physical Cozmo smoke test pending.
 
 ## Quick start
 
 ```bash
-python3 -m venv .venv
+python3.12 -m venv .venv
 .venv/bin/pip install -e '.[dev,voice,robot]'
+mkdir -p models
+curl -L https://alphacephei.com/vosk/models/vosk-model-small-tr-0.3.zip \
+  -o /tmp/vosk-model-small-tr-0.3.zip
+unzip /tmp/vosk-model-small-tr-0.3.zip -d models
 .venv/bin/python -m pytest --cov=cozmo_tr --cov-branch --cov-fail-under=85
 .venv/bin/cozmo-tr doctor
 .venv/bin/cozmo-tr parse "ileri git"
 .venv/bin/cozmo-tr say "Merhaba, ben Cozmo"
 ```
 
-Vosk Türkçe modeli Cozmo Wi-Fi'ye bağlanmadan önce indirilecektir. Fiziksel
-bağlantı adımları MVP smoke testi tamamlanınca bu bölüme eklenecektir.
+Python 3.11 veya 3.12 kullanın. Vosk modelini Cozmo Wi-Fi'ye geçmeden indirin;
+robotun ağı internete çıkmaz.
+
+## Demo
+
+Önce robot olmadan mikrofon ve komut zincirini deneyin:
+
+```bash
+.venv/bin/cozmo-tr run --once
+```
+
+Gerçek robot için Cozmo'yu şarj platformunda uyandırın, kaldırma kolunu bir
+kez indirip kaldırarak ekranda Wi-Fi parolasını gösterin ve Mac'i `COZMO_...`
+ağına bağlayın. Robotu ilk denemede masada değil, boş zeminde tutun:
+
+```bash
+.venv/bin/cozmo-tr doctor
+.venv/bin/cozmo-tr run --once --robot
+```
+
+Konuşma örnekleri: `ileri 50`, `geri 30`, `sola 45`, `sağa 45`, `dur` ve
+`söyle merhaba ben Cozmo`. Hareket 150 mm, dönüş 90 derece ile sınırlıdır;
+firmware cliff-stop bağlantı sırasında açılır.
 
 ## Project structure
 
