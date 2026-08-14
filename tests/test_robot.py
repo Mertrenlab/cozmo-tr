@@ -63,6 +63,14 @@ class FakeTts:
         return WavSpec(22_050, 1, 2)
 
 
+class BrokenClient(FakeClient):
+    """Fail during robot discovery after the transport starts."""
+
+    def wait_for_robot(self, timeout: float = 5.0) -> None:
+        super().wait_for_robot(timeout)
+        raise TimeoutError("robot yok")
+
+
 class RobotAdapterTests(unittest.TestCase):
     """Verify connection safety and bounded action mapping."""
 
@@ -83,6 +91,17 @@ class RobotAdapterTests(unittest.TestCase):
         expected = [("start",), ("connect",), ("wait", 8.0)]
         self.assertEqual(self.client.calls[:3], expected)
         self.assertEqual(self.client.conn.packets, [("cliff", True)])
+
+    def test_connect_failure_cleans_up_started_client(self) -> None:
+        client = BrokenClient()
+        robot = PyCozmoRobot(
+            client_factory=lambda: client,
+            cliff_packet_factory=lambda enabled: ("cliff", enabled),
+        )
+        with self.assertRaises(RobotUnavailable):
+            robot.connect()
+        expected = [("stop_motors",), ("disconnect",), ("stop_client",)]
+        self.assertEqual(client.calls[-3:], expected)
 
     def test_maps_move_turn_stop_and_speech(self) -> None:
         self.robot.connect()
